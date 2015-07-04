@@ -1,6 +1,7 @@
 package jp.co.spajam.honsenapp;
 
 import android.animation.ObjectAnimator;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,11 +11,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import org.java_websocket.handshake.ServerHandshake;
+import java.net.URI;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class YellActivity extends ActionBarActivity {
+public class YellActivity extends ActionBarActivity implements YellWebSocketClient.CallBackListener{
 
 	public static final String TAG = YellApplication.class.getSimpleName();
 	private String mNickname;
@@ -22,6 +26,7 @@ public class YellActivity extends ActionBarActivity {
 	private int mRootHeight;
 	private int mMapHeight;
 
+	private YellWebSocketClient mWebSocketClient;
 
 	@Bind(R.id.map)
 	ImageView mMap;
@@ -40,6 +45,10 @@ public class YellActivity extends ActionBarActivity {
 
 		mNickname = YellApplication.loadNickname();
 		Log.d(TAG, "Nickname:" + mNickname);
+
+        // WebSocketサーバーに接続
+		mWebSocketClient = new YellWebSocketClient(URI.create(YellWebSocketClient.SOCKET_SERVER_URL), new Handler(), this);
+		mWebSocketClient.connect();
 	}
 
 	@Override
@@ -139,5 +148,26 @@ public class YellActivity extends ActionBarActivity {
 
 		// アニメーションを開始します
 		objectAnimator.start();
+    }
+
+	//WebSocketClientからのコールバック
+	@Override
+	public void onOpen(ServerHandshake handshakedata) {
+		Log.d(TAG, "onOpen");
+	}
+
+	@Override
+	public void onMessage(Yell yell) {
+		Log.d(TAG, "onMessage :" + yell);
+	}
+
+	@Override
+	public void onClose(int code, String reason, boolean remote) {
+		Log.d(TAG, "onClose");
+	}
+
+	@Override
+	public void onError(Exception ex) {
+		Log.d(TAG, "onError :" + ex.getMessage());
 	}
 }
