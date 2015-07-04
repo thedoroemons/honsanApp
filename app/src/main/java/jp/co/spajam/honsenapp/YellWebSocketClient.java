@@ -7,6 +7,7 @@ import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.URI;
 import java.util.Map;
@@ -19,6 +20,7 @@ public class YellWebSocketClient extends WebSocketClient{
     public static final String SOCKET_SERVER_URL = "ws://36.55.240.249:8989";
     private CallBackListener mListener;
     private Handler mHandler;
+    private boolean mIsOpen = false;
 
     public YellWebSocketClient(URI serverURI, Handler handler, CallBackListener listener) {
         super(serverURI);
@@ -43,6 +45,7 @@ public class YellWebSocketClient extends WebSocketClient{
 
     @Override
     public void onOpen(final ServerHandshake handshakedata) {
+        mIsOpen = true;
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -68,6 +71,7 @@ public class YellWebSocketClient extends WebSocketClient{
 
     @Override
     public void onClose(final int code,final String reason,final boolean remote) {
+        mIsOpen =false;
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -78,6 +82,7 @@ public class YellWebSocketClient extends WebSocketClient{
 
     @Override
     public void onError(final Exception ex) {
+        mIsOpen =false;
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -85,6 +90,53 @@ public class YellWebSocketClient extends WebSocketClient{
             }
         });
     }
+
+    /**
+     * WebSocketサーバーにリクエストを投げる
+     * @param name ニックネーム
+     * @param lat 緯度
+     * @param lon 経度
+     * @param vol 音量
+     * @param type 種類
+     */
+    public void reqeustYell(String name, float lat, float lon, int vol, int type) {
+
+        try {
+            send(createRequestString(name, lat, lon, vol, type));
+        } catch (JSONException e) {
+            Log.e(TAG, "JSONException.  Request cancel.");
+        }
+    }
+
+    /**
+     * 値を元にリクエスト用のJSON文字列を作成する
+     * @param name ニックネーム
+     * @param lat 緯度
+     * @param lon 経度
+     * @param vol 音量
+     * @param type 種類
+     * @return JSON文字列
+     * @throws JSONException
+     */
+    private String createRequestString(String name, float lat, float lon, int vol, int type) throws JSONException{
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("lat", lat);
+        json.put("lon", lon);
+        json.put("vol", vol);
+        json.put("type", type);
+
+        return json.toString();
+    }
+
+    /**
+     * WebSocketサーバーに接続しているかを取得する
+     * @return boolean
+     */
+    public boolean isOpen() {
+        return mIsOpen;
+    }
+
 
     public void setCallBackListener(CallBackListener listener) {
         mListener = listener;
