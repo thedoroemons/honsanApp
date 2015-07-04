@@ -68,7 +68,7 @@ public class VoiceManager {
                 _mBufSize);
     }
 
-    public int[] getAndRemoveVolumeList(){
+    synchronized public int[] getAndRemoveVolumeList(){
 
         int[] tmp = new int[_mVolumeList.size()];
 
@@ -81,7 +81,7 @@ public class VoiceManager {
 
     }
 
-    public int[] getAndRemoveHealtzList(){
+    synchronized public int[] getAndRemoveHealtzList(){
 
         int[] tmp = new int[_mHealtzList.size()];
 
