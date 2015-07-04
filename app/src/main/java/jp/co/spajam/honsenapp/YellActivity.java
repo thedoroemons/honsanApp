@@ -2,11 +2,16 @@ package jp.co.spajam.honsenapp;
 
 import android.animation.ObjectAnimator;
 import android.os.Handler;
+import android.content.Intent;
+import android.graphics.drawable.ClipDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -16,6 +21,7 @@ import java.net.URI;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class YellActivity extends ActionBarActivity implements YellWebSocketClient.CallBackListener{
@@ -27,6 +33,9 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 	private int mMapHeight;
 
 	private YellWebSocketClient mWebSocketClient;
+	
+	@Bind(R.id.tama)
+	ImageView mTama;
 
 	@Bind(R.id.map)
 	ImageView mMap;
@@ -101,31 +110,6 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 		moveTop(mYellSample, 3000);
 	}
 
-	/**
-	 * X方向にターゲットを3秒かけて200移動する
-	 * See http://techblog.yahoo.co.jp/programming/androidiphone/
-	 *
-	 * @param target
-	 */
-	private void animateTranslationY( ImageView target ) {
-		int left = target.getLeft();
-		int top = target.getTop();
-		Log.d(TAG,"top"+top);
-
-		float absoluteStartY = 0f;
-		float absoluteEndY = -200f;
-		absoluteEndY = (mRootHeight - target.getHeight()) * 0.5f * -1.0f;
-		Log.d(TAG,"absoluteEndY" + absoluteEndY);
-
-		// translationXプロパティを0fから200fに変化させます
-		ObjectAnimator objectAnimator = ObjectAnimator.ofFloat( target, "translationY", absoluteStartY, absoluteEndY );
-
-		// 3秒かけて実行させます
-		objectAnimator.setDuration( 3000 );
-
-		// アニメーションを開始します
-		objectAnimator.start();
-	}
 
 	/**
 	 * 上方向にターゲットをduration秒かけて親ViewGroupの上部まで移動する
@@ -148,6 +132,27 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 
 		// アニメーションを開始します
 		objectAnimator.start();
+	}
+
+	// たまを大きくする
+	private void tamaBig(int vol) {
+		ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams)mTama.getLayoutParams();
+		int currentWidth = mTama.getLayoutParams().width;
+		int currentHeight = mTama.getLayoutParams().height;
+		int afterWidth = currentWidth + vol * 2;
+		int afterHeight = currentHeight + vol;
+		int afterMarginTop = (int)(afterHeight * -0.5);
+		mTama.getLayoutParams().width = afterWidth;
+		mTama.getLayoutParams().height = afterHeight;
+		mlp.topMargin = afterMarginTop;
+		mTama.setLayoutParams(mlp);
+		mTama.requestLayout();
+	}
+
+	@OnClick(R.id.map)
+	public void test(ImageView imageView) {
+		Log.d(TAG,"test");
+		tamaBig(5);
     }
 
 	//WebSocketClientからのコールバック

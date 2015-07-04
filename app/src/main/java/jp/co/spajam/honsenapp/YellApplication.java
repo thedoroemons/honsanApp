@@ -2,6 +2,8 @@ package jp.co.spajam.honsenapp;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 /**
@@ -15,12 +17,14 @@ public class YellApplication extends Application {
 	public static final String DEFAULT_NICKNAME = "名無しさん";
 
 	private static SharedPreferences pref;
+	private static Resources res;
 
 	@Override
 	public void onCreate() {
 		/** Called when the Application-class is first created. */
 		Log.d(TAG, "--- onCreate() in ---");
 		pref = getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
+		res = getApplicationContext().getResources();
 	}
 
 	@Override
@@ -51,8 +55,17 @@ public class YellApplication extends Application {
 		if (pref == null) {
 			Log.e(TAG,"pref is null");
 		}
-		String nickname = pref.getString(PREF_NICKNAME_KEY,DEFAULT_NICKNAME);
+		String nickname = pref.getString(PREF_NICKNAME_KEY, DEFAULT_NICKNAME);
 		return nickname;
+	}
+
+	public static int dp2int(int dp) {
+		if (res == null) {
+			Log.e(TAG,"res is null");
+		}
+		DisplayMetrics metrics = res.getDisplayMetrics();
+		int padding = (int) (metrics.density * dp);
+		return padding;
 	}
 
 
