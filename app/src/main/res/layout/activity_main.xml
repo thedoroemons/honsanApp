@@ -17,14 +17,27 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="130dp"/>
 
+    <EditText
+        android:id="@+id/edit_nickname"
+        android:layout_width="165dp"
+        android:layout_height="wrap_content"
+        android:hint="ニックネームを入力"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/title_image"
+        android:layout_centerHorizontal="true"/>
+
     <Button
         android:id="@+id/yell_button"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_below="@+id/title_image"
-        android:layout_marginTop="50dp"
+        android:layout_below="@+id/edit_nickname"
+        android:layout_marginTop="40dp"
         android:background="@color/main_color"
         android:layout_centerHorizontal="true"
         android:text="応援する"/>
+
+
 
 </RelativeLayout>

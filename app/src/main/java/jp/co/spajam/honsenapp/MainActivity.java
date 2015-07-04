@@ -1,12 +1,15 @@
 package jp.co.spajam.honsenapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import butterknife.Bind;
@@ -18,6 +21,9 @@ public class MainActivity extends ActionBarActivity {
 
     @Bind(R.id.yell_button)
     TextView mYellButton;
+
+    @Bind(R.id.edit_nickname)
+    EditText mEditNickname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +58,11 @@ public class MainActivity extends ActionBarActivity {
 
     @OnClick(R.id.yell_button)
     public void openYellActivity(Button button) {
+        Editable nickNameEditable = mEditNickname.getText();
+        if (nickNameEditable != null) {
+            String nickname = nickNameEditable.toString();
+            YellApplication.saveNickname(nickname);
+        }
         Intent intent = new Intent(this, YellActivity.class);
         startActivity(intent);
     }

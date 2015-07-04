@@ -3,6 +3,7 @@
     package="jp.co.spajam.honsenapp" >
 
     <application
+        android:name="jp.co.spajam.honsenapp.YellApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
