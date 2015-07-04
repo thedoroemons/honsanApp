@@ -20,6 +20,7 @@ public class YellWebSocketClient extends WebSocketClient{
     public static final String SOCKET_SERVER_URL = "ws://36.55.240.249:8989";
     private CallBackListener mListener;
     private Handler mHandler;
+    private boolean mIsOpen = false;
 
     public YellWebSocketClient(URI serverURI, Handler handler, CallBackListener listener) {
         super(serverURI);
@@ -44,6 +45,7 @@ public class YellWebSocketClient extends WebSocketClient{
 
     @Override
     public void onOpen(final ServerHandshake handshakedata) {
+        mIsOpen = true;
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -69,6 +71,7 @@ public class YellWebSocketClient extends WebSocketClient{
 
     @Override
     public void onClose(final int code,final String reason,final boolean remote) {
+        mIsOpen =false;
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -79,6 +82,7 @@ public class YellWebSocketClient extends WebSocketClient{
 
     @Override
     public void onError(final Exception ex) {
+        mIsOpen =false;
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -123,6 +127,14 @@ public class YellWebSocketClient extends WebSocketClient{
         json.put("type", type);
 
         return json.toString();
+    }
+
+    /**
+     * WebSocketサーバーに接続しているかを取得する
+     * @return boolean
+     */
+    public boolean isOpen() {
+        return mIsOpen;
     }
 
 
