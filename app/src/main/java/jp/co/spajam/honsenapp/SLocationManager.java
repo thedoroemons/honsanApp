@@ -55,8 +55,8 @@ public class SLocationManager implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-        double lat= location.getLatitude();
-        double lon= location.getLongitude();
+        float lat= (float) location.getLatitude();
+        float lon= (float) location.getLongitude();
         YellApplication.saveLatLon(lat, lon);
         Log.d("SLocationManager", "緯度経度　取得完了：" + lat + ":" + lon);
         mLocationManager.removeUpdates(this);

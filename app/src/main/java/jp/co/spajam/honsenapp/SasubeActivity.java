@@ -7,10 +7,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import org.java_websocket.handshake.ServerHandshake;
 
-public class SasubeActivity extends ActionBarActivity implements VoiceManager.DebugIF {
+import java.net.URI;
+
+import jp.co.spajam.honsenapp.YellWebSocketClient.CallBackListener;
+
+
+public class SasubeActivity extends ActionBarActivity implements VoiceManager.SendDataIF, CallBackListener {
 
     Handler mHandler = new Handler();           //UI Threadへのpost用ハンドラ
+    private YellWebSocketClient mWebSocketClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +25,11 @@ public class SasubeActivity extends ActionBarActivity implements VoiceManager.De
         setContentView(R.layout.activity_sasube);
         VoiceManager voiceManager = VoiceManager.getInstance(this);
         voiceManager.startRecording();
+        SLocationManager locationManager = SLocationManager.getInstance();
+        locationManager.startGetCurrentLocation(this);
+        // WebSocketサーバーに接続
+        mWebSocketClient = new YellWebSocketClient(URI.create(YellWebSocketClient.SOCKET_SERVER_URL), new Handler(), this);
+        mWebSocketClient.connect();
 
     }
 
@@ -33,6 +45,7 @@ public class SasubeActivity extends ActionBarActivity implements VoiceManager.De
         super.onDestroy();
         VoiceManager voiceManager = VoiceManager.getInstance(this);
         voiceManager.stopRecoding();
+        mWebSocketClient.close();
     }
 
     @Override
@@ -51,7 +64,7 @@ public class SasubeActivity extends ActionBarActivity implements VoiceManager.De
     }
 
     @Override
-    public void showHealtz(int[] aFloat) {
+    public void showDebugHealtz(int[] aFloat) {
 
         String str = "";
         for (int n = 0; n < aFloat.length; n++){
@@ -65,6 +78,31 @@ public class SasubeActivity extends ActionBarActivity implements VoiceManager.De
                 ((TextView) findViewById(R.id.textView2)).setText(finalStr);
             }
         });
+
+    }
+
+    @Override
+    public void sendData(String name, float lat, float lon, int volumeLevel, int voiceType) {
+        mWebSocketClient.reqeustYell(name, lat, lon, volumeLevel, voiceType);
+    }
+
+    @Override
+    public void onOpen(ServerHandshake handshakedata) {
+
+    }
+
+    @Override
+    public void onMessage(Yell yell) {
+
+    }
+
+    @Override
+    public void onClose(int code, String reason, boolean remote) {
+
+    }
+
+    @Override
+    public void onError(Exception ex) {
 
     }
 }
