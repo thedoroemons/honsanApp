@@ -19,7 +19,7 @@ public class VoiceManager {
     private static final int MAX_I = 100;
     private final String TAG = "VoiceManager";
 
-    Timer mTimer   = new Timer(true);         //onClickメソッドでインスタンス生成
+    Timer _mTimer = new Timer(true);         //onClickメソッドでインスタンス生成
 
     private boolean _mIsRecording = false;
     private AudioRecord _mAudioRec = null;
@@ -148,12 +148,14 @@ public class VoiceManager {
         }).start();
 
         PostTimerTask timerTask = new PostTimerTask();
-        mTimer.schedule(timerTask, SoundConst.SENDING_INTERVAL, SoundConst.SENDING_INTERVAL);
+        _mTimer.schedule(timerTask, SoundConst.SENDING_INTERVAL, SoundConst.SENDING_INTERVAL);
 
     }
 
     public void stopRecoding(){
         _mIsRecording = false;
+        _mTimer.cancel();
+        _mTimer = new Timer(true);
     }
 
     private int getMin2Power(int length) {

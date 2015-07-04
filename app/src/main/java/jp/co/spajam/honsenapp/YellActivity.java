@@ -1,22 +1,18 @@
 package jp.co.spajam.honsenapp;
 
 import android.animation.ObjectAnimator;
-import android.os.Handler;
-import android.content.Intent;
-import android.graphics.drawable.ClipDrawable;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.Editable;
+import android.os.Handler;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import org.java_websocket.handshake.ServerHandshake;
+
 import java.net.URI;
 
 import butterknife.Bind;
@@ -24,7 +20,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class YellActivity extends ActionBarActivity implements YellWebSocketClient.CallBackListener{
+public class YellActivity extends ActionBarActivity implements YellWebSocketClient.CallBackListener, VoiceManager.SendDataIF{
 
 	public static final String TAG = YellApplication.class.getSimpleName();
 	private String mNickname;
@@ -55,6 +51,10 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 		mNickname = YellApplication.loadNickname();
 		Log.d(TAG, "Nickname:" + mNickname);
 
+		// 音を取り始める。
+		VoiceManager voiceManager = VoiceManager.getInstance(this);
+		voiceManager.startRecording();
+
         // WebSocketサーバーに接続
 		mWebSocketClient = new YellWebSocketClient(URI.create(YellWebSocketClient.SOCKET_SERVER_URL), new Handler(), this);
 		mWebSocketClient.connect();
@@ -66,10 +66,18 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 		Log.d(TAG, "onResume");
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		VoiceManager voiceManager = VoiceManager.getInstance(this);
+		voiceManager.stopRecoding();
+		mWebSocketClient.close();
+	}
+
 	/* (non-Javadoc)
-	 * @see android.app.Activity#onWindowFocusChanged(boolean)
-	 * onResumeの後でよばれます。
-	 */
+         * @see android.app.Activity#onWindowFocusChanged(boolean)
+         * onResumeの後でよばれます。
+         */
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		// 表示と同時にウィジェットの高さや幅を取得したいときは大抵ここで取る。
@@ -174,5 +182,18 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 	@Override
 	public void onError(Exception ex) {
 		Log.d(TAG, "onError :" + ex.getMessage());
+	}
+
+
+	@Override
+	public void showDebugHealtz(int[] aFloat) {
+
+	}
+
+	@Override
+	public void sendData(String name, float lat, float lon, int volumeLevel, int voiceType) {
+		if(mWebSocketClient.isOpen()){
+			mWebSocketClient.reqeustYell(name, lat, lon, volumeLevel, voiceType);
+		}
 	}
 }
