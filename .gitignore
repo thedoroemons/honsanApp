@@ -21,7 +21,6 @@ build/
 !/.idea/gradel.xml
 !/.idea/runConfigurations/*.xml
 
-
 # Local configuration file (sdk path, etc)
 local.properties
 
