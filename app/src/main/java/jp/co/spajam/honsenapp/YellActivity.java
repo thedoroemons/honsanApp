@@ -22,7 +22,7 @@ import butterknife.OnClick;
 
 public class YellActivity extends ActionBarActivity implements YellWebSocketClient.CallBackListener, VoiceManager.SendDataIF{
 
-	public static final String TAG = YellApplication.class.getSimpleName();
+	public static final String TAG = YellActivity.class.getSimpleName();
 	private String mNickname;
 	private int mRootWidth;
 	private int mRootHeight;
