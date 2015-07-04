@@ -2,16 +2,23 @@ package jp.co.spajam.honsenapp;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
 public class YellActivity extends ActionBarActivity {
 
+	public static final String TAG = YellApplication.class.getSimpleName();
+	private String mNickname;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_yell);
+
+		mNickname = YellApplication.loadNickname();
+		Log.d(TAG, "Nickname:" + mNickname);
 	}
 
 	@Override
