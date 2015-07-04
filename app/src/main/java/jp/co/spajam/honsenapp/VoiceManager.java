@@ -8,6 +8,8 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by masaharu on 2015/07/04.
@@ -15,8 +17,9 @@ import java.util.List;
 public class VoiceManager {
 
     private static final int MAX_I = 100;
-    private static final int SAMPLING_RATE = 44100;
     private final String TAG = getClass().getSimpleName();
+
+    Timer mTimer   = new Timer(true);         //onClickメソッドでインスタンス生成
 
     private boolean _mIsRecording = false;
     private AudioRecord _mAudioRec = null;
@@ -39,7 +42,7 @@ public class VoiceManager {
     private void _init(){
 
         _mBufSize = AudioRecord.getMinBufferSize(
-                SAMPLING_RATE,
+                SoundConst.SAMPLING_RATE,
                 AudioFormat.CHANNEL_IN_MONO,
                 AudioFormat.ENCODING_PCM_16BIT);
 
@@ -50,18 +53,18 @@ public class VoiceManager {
         }
         _mAudioRec = new AudioRecord(
                 MediaRecorder.AudioSource.MIC,
-                SAMPLING_RATE,
+                SoundConst.SAMPLING_RATE,
                 AudioFormat.CHANNEL_IN_MONO,
                 AudioFormat.ENCODING_PCM_16BIT,
                 _mBufSize);
     }
 
-    public float[] getAndRemoveVolumeList(){
+    public int[] getAndRemoveVolumeList(){
 
-        float[] tmp = new float[_mVolumeList.size()];
+        int[] tmp = new int[_mVolumeList.size()];
 
         for(int n = 0; n<_mVolumeList.size(); n++){
-            tmp[n] = _mVolumeList.get(n);
+            tmp[n] = _mVolumeList.get(n).intValue();
         }
 
         _mVolumeList.clear();
@@ -69,12 +72,12 @@ public class VoiceManager {
 
     }
 
-    public float[] getAndRemoveHealtzList(){
+    public int[] getAndRemoveHealtzList(){
 
-        float[] tmp = new float[_mHealtzList.size()];
+        int[] tmp = new int[_mHealtzList.size()];
 
         for(int n = 0; n<_mHealtzList.size(); n++){
-            tmp[n] = _mHealtzList.get(n);
+            tmp[n] = _mHealtzList.get(n).intValue();
         }
 
         _mHealtzList.clear();
@@ -122,7 +125,7 @@ public class VoiceManager {
                     if (p < 1.0f) { p = 1.0f; }
                     final float volume = (float) (20.0 * (float)Math.log10(p));
                     Arrays.fill(buf, readSize, fft.fftSize, (short) 0);
-                    final float healtz = fft.getHealtz(buf, SAMPLING_RATE);
+                    final float healtz = fft.getHealtz(buf, SoundConst.SAMPLING_RATE);
                     Log.v("AudioRecord", "read " + buf.length + " bytes");
                     Log.v("AudioRecord", healtz + " Hz");
                     Log.v("AudioRecord", volume + " volume");
@@ -134,6 +137,10 @@ public class VoiceManager {
                 _mAudioRec.stop();
             }
         }).start();
+
+        PostTimerTask timerTask = new PostTimerTask();
+        mTimer.schedule(timerTask, SoundConst.SENDING_INTERVAL, SoundConst.SENDING_INTERVAL);
+
     }
 
     public void stopRecoding(){
@@ -150,6 +157,76 @@ public class VoiceManager {
             ++i;
         }
         return -1;
+    }
+
+    class PostTimerTask extends TimerTask {
+
+        @Override
+        public void run() {
+            VoiceManager voiceManager = VoiceManager.getInstance();
+
+            // 周波数
+            int[] healtz = voiceManager.getAndRemoveHealtzList();
+            // 音声タイプ
+            int voiceType = getVoiceType(healtz);
+
+            // 音量
+            int[] volume = voiceManager.getAndRemoveVolumeList();
+            // 音量レベル
+            int volumeLevel = getVolumeLevel(volume);
+
+            Log.d(TAG,"voiceType;" + voiceType + "volumeLevel:" + volumeLevel);
+
+            // voiceType と volume を渡す。あとlat,lonとニックネーム
+        }
+    }
+
+    // 音声タイプを取得する
+    // @SoundConst.VoiceType
+    private int getVoiceType(int[] healtz){
+        int healtzSum0 = 0;
+        int healtzSum1 = 0;
+        String str = "healtz";
+        for (int n = 0; n < healtz.length/2; n++){
+            str += healtz[n] + ", ";
+            if(healtz[n] >= 0){
+                healtzSum0 += healtz[n];
+            }
+        }
+        for (int n = healtz.length/2; n < healtz.length; n++){
+            str += healtz[n] + ", ";
+            if(healtz[n] >= 0){
+                healtzSum1 += healtz[n];
+            }
+        }
+//        str2 += "Hz0:" + healtzSum0/(healtz.length/2) ;
+//        str2 += "Hz1:" + healtzSum1/(healtz.length/2) ;
+//        str2 += "Hz2:" + (healtzSum0+healtzSum1)/healtz.length ;
+        return 0;
+    }
+
+    // 音声レベルを取得する。
+    private int getVolumeLevel(int[] volume){
+
+        int volumeSum = 0;
+
+        for (int n = 0; n < volume.length; n++){
+            if(volume[n] >= 0){
+                volumeSum += volume[n];
+            }
+        }
+
+        int volumeAve = volumeSum/volume.length;
+        Log.d(TAG,"volumeAve:" + volumeAve );
+
+        for(int n = 0; n < SoundConst.VOLUME_VALUE.length; n++){
+            if(volumeAve < SoundConst.VOLUME_VALUE[n]){
+                return n;
+            }
+        }
+
+
+        return SoundConst.VOLUME_VALUE.length;
     }
 
 
