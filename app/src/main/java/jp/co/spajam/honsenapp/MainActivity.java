@@ -18,8 +18,6 @@ import butterknife.OnClick;
 
 
 public class MainActivity extends ActionBarActivity {
-//    public static final String PREFERENCES_FILE_NAME = "YELL";
-//    public static final String PREF_NICKNAME_KEY = "NICKNAME";
 
     @Bind(R.id.yell_button)
     TextView mYellButton;
@@ -68,15 +66,4 @@ public class MainActivity extends ActionBarActivity {
         Intent intent = new Intent(this, YellActivity.class);
         startActivity(intent);
     }
-
-//    /**
-//     * ニックネームをプリファレンスに保存する
-//     * @param nickname
-//     */
-//    private void saveNickname(String nickname) {
-//        SharedPreferences pref = getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
-//        SharedPreferences.Editor editor = pref.edit();
-//        editor.putString(PREF_NICKNAME_KEY, nickname);
-//        editor.commit();
-//    }
 }
