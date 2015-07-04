@@ -1,10 +1,12 @@
 package jp.co.spajam.honsenapp;
 
+import android.animation.ObjectAnimator;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 
 public class YellActivity extends ActionBarActivity {
@@ -41,5 +43,23 @@ public class YellActivity extends ActionBarActivity {
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+
+
+	/**
+	 * X方向にターゲットを3秒かけて200移動する
+	 *
+	 * @param target
+	 */
+	private void animateTranslationY( ImageView target ) {
+
+		// translationXプロパティを0fから200fに変化させます
+		ObjectAnimator objectAnimator = ObjectAnimator.ofFloat( target, "translationY", 0f, 200f );
+
+		// 3秒かけて実行させます
+		objectAnimator.setDuration( 3000 );
+
+		// アニメーションを開始します
+		objectAnimator.start();
 	}
 }
