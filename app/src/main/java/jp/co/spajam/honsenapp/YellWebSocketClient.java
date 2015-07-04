@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public class YellWebSocketClient extends WebSocketClient{
     private static final String TAG = YellWebSocketClient.class.getSimpleName();
-    public static final String SOCKET_SERVER_URL = "ws://128.199.112.27:9292";
+    public static final String SOCKET_SERVER_URL = "ws://36.55.240.249:8989"; //"ws://128.199.112.27:9292"
     private CallBackListener mListener;
     private Handler mHandler;
     private boolean mIsOpen = false;
