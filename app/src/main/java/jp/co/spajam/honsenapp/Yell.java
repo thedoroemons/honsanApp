@@ -9,10 +9,22 @@ public class Yell {
     private String mName;
     // 地方ID (北海道:0 東北:1 関東:2 中部:3 近畿:4 中国:5 四国:6 九州:7)
     private int mArea;
-    // 声の音量 (0~5) (文字の大きさに反映)
+    // 声の音量 (1~5) (文字の大きさに反映)
     private int mVol;
-    // 声色 (0~5) (文字色に反映)
+    // 声色 (1~5) (文字色に反映)
     private int mType;
+
+    public Yell() {
+
+    }
+
+    public Yell(String name, int area, int vol, int type) {
+        mName = name;
+        mArea = area;
+        mVol  = vol;
+        mType = type;
+
+    }
 
     public String getName() {
         return mName;
@@ -44,5 +56,15 @@ public class Yell {
 
     public void setType(int type) {
         mType = type;
+    }
+
+    @Override
+    public String toString() {
+        return "Yell{" +
+                "mName='" + mName + '\'' +
+                ", mArea=" + mArea +
+                ", mVol=" + mVol +
+                ", mType=" + mType +
+                '}';
     }
 }
