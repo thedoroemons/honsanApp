@@ -3,14 +3,26 @@
 				android:id="@+id/root"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
+				android:background="@color/black"
 				tools:context="jp.co.spajam.honsenapp.YellActivity">
+
+
 
 	<ImageView
 		android:id="@+id/map"
 		android:layout_width="match_parent"
 		android:layout_height="200dp"
 		android:scaleType="fitXY"
+		android:layout_margin="16dp"
 		android:layout_alignParentBottom="true"
 		android:src="@drawable/map"/>
+
+	<ImageView
+		android:id="@+id/yell_sample"
+		android:layout_width="15dp"
+		android:layout_height="30dp"
+		android:layout_marginBottom="200dp"
+		android:layout_alignParentBottom="true"
+		android:src="@drawable/yell"/>
 
 </RelativeLayout>

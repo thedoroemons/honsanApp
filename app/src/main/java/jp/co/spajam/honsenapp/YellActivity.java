@@ -20,10 +20,14 @@ public class YellActivity extends ActionBarActivity {
 	private String mNickname;
 	private int mRootWidth;
 	private int mRootHeight;
+	private int mMapHeight;
 
 
 	@Bind(R.id.map)
 	ImageView mMap;
+
+	@Bind(R.id.yell_sample)
+	ImageView mYellSample;
 
 	@Bind(R.id.root)
 	RelativeLayout mRoot;
@@ -34,13 +38,30 @@ public class YellActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_yell);
 		ButterKnife.bind(this);
 
-		mRootWidth = mRoot.getWidth();
-		mRootHeight = mRoot.getHeight();
-
 		mNickname = YellApplication.loadNickname();
 		Log.d(TAG, "Nickname:" + mNickname);
+	}
 
-		animateTranslationY(mMap);
+	@Override
+	public void onResume() {
+		super.onResume();
+		Log.d(TAG, "onResume");
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onWindowFocusChanged(boolean)
+	 * onResumeの後でよばれます。
+	 */
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		// 表示と同時にウィジェットの高さや幅を取得したいときは大抵ここで取る。
+		if (hasFocus) {
+			mRootWidth = mRoot.getWidth();
+			mRootHeight = mRoot.getHeight();
+			mMapHeight = mMap.getHeight();
+		}
+		start();
+		super.onWindowFocusChanged(hasFocus);
 	}
 
 	@Override
@@ -66,6 +87,11 @@ public class YellActivity extends ActionBarActivity {
 	}
 
 
+	// ここからいろいろ処理を始める
+	private void start() {
+		moveTop(mYellSample, 3000);
+	}
+
 	/**
 	 * X方向にターゲットを3秒かけて200移動する
 	 * See http://techblog.yahoo.co.jp/programming/androidiphone/
@@ -73,14 +99,43 @@ public class YellActivity extends ActionBarActivity {
 	 * @param target
 	 */
 	private void animateTranslationY( ImageView target ) {
+		int left = target.getLeft();
+		int top = target.getTop();
+		Log.d(TAG,"top"+top);
 
 		float absoluteStartY = 0f;
 		float absoluteEndY = -200f;
+		absoluteEndY = (mRootHeight - target.getHeight()) * 0.5f * -1.0f;
+		Log.d(TAG,"absoluteEndY" + absoluteEndY);
+
 		// translationXプロパティを0fから200fに変化させます
 		ObjectAnimator objectAnimator = ObjectAnimator.ofFloat( target, "translationY", absoluteStartY, absoluteEndY );
 
 		// 3秒かけて実行させます
 		objectAnimator.setDuration( 3000 );
+
+		// アニメーションを開始します
+		objectAnimator.start();
+	}
+
+	/**
+	 * 上方向にターゲットをduration秒かけて親ViewGroupの上部まで移動する
+	 * See http://techblog.yahoo.co.jp/programming/androidiphone/
+	 *
+	 * @param target
+	 */
+	private void moveTop( ImageView target ,int duration ) {
+		int left = target.getLeft();
+		int top = target.getTop();
+
+		float absoluteStartY = 0f; // 現在位置から
+		float absoluteEndY = (top) * -1.0f; // 親RootViewの上まで
+
+		// translationXプロパティを0fから200fに変化させます
+		ObjectAnimator objectAnimator = ObjectAnimator.ofFloat( target, "translationY", absoluteStartY, absoluteEndY );
+
+		// 3秒かけて実行させます
+		objectAnimator.setDuration( duration );
 
 		// アニメーションを開始します
 		objectAnimator.start();
