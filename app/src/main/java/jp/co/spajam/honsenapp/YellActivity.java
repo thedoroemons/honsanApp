@@ -4,8 +4,6 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.os.Handler;
-import android.content.Intent;
-import android.graphics.drawable.ClipDrawable;
 import android.support.v4.util.Pair;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;

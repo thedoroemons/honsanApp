@@ -68,30 +68,33 @@ public class VoiceManager {
                 _mBufSize);
     }
 
-    synchronized public int[] getAndRemoveVolumeList(){
+    public int[] getAndRemoveVolumeList(){
 
-        int[] tmp = new int[_mVolumeList.size()];
+        synchronized (_mVolumeList){
+            int[] tmp = new int[_mVolumeList.size()];
 
-        for(int n = 0; n<_mVolumeList.size(); n++){
-            tmp[n] = _mVolumeList.get(n).intValue();
+            for(int n = 0; n<_mVolumeList.size(); n++){
+                tmp[n] = _mVolumeList.get(n).intValue();
+            }
+            _mVolumeList.clear();
+
+            return tmp;
         }
-
-        _mVolumeList.clear();
-        return tmp;
 
     }
 
-    synchronized public int[] getAndRemoveHealtzList(){
+    public int[] getAndRemoveHealtzList(){
 
-        int[] tmp = new int[_mHealtzList.size()];
+        synchronized (_mHealtzList) {
+            int[] tmp = new int[_mHealtzList.size()];
 
-        for(int n = 0; n<_mHealtzList.size(); n++){
-            tmp[n] = _mHealtzList.get(n).intValue();
+            for(int n = 0; n<_mHealtzList.size(); n++){
+                tmp[n] = _mHealtzList.get(n).intValue();
+            }
+
+            _mHealtzList.clear();
+            return tmp;
         }
-
-        _mHealtzList.clear();
-        return tmp;
-
     }
 
 
