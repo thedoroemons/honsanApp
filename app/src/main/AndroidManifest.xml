@@ -3,6 +3,7 @@
     package="jp.co.spajam.honsenapp" >
 
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name="jp.co.spajam.honsenapp.YellApplication"
