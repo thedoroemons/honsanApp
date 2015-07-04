@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="jp.co.spajam.honsenapp" >
 
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
     <application
         android:name="jp.co.spajam.honsenapp.YellApplication"
         android:allowBackup="true"
@@ -23,6 +25,7 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait">
         </activity>
+
     </application>
 
 </manifest>
