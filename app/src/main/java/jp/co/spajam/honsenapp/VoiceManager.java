@@ -31,9 +31,17 @@ public class VoiceManager {
     private List<Float> _mVolumeList = new ArrayList<>();
     private List<Float> _mHealtzList = new ArrayList<>();
 
-    public static VoiceManager getInstance(){
+
+    interface DebugIF{
+        void showHealtz(int[] aFloat);
+    }
+    private static DebugIF mDebugIF;
+
+
+    public static VoiceManager getInstance(DebugIF debugIF){
         if(_mVoiceManager == null){
             _mVoiceManager = new VoiceManager();
+            mDebugIF = debugIF;
         }
         return _mVoiceManager;
     }
@@ -163,15 +171,13 @@ public class VoiceManager {
 
         @Override
         public void run() {
-            VoiceManager voiceManager = VoiceManager.getInstance();
-
             // 周波数
-            int[] healtz = voiceManager.getAndRemoveHealtzList();
+            int[] healtz = getAndRemoveHealtzList();
             // 音声タイプ
             int voiceType = getVoiceType(healtz);
 
             // 音量
-            int[] volume = voiceManager.getAndRemoveVolumeList();
+            int[] volume = getAndRemoveVolumeList();
             // 音量レベル
             int volumeLevel = getVolumeLevel(volume);
 
@@ -184,25 +190,25 @@ public class VoiceManager {
     // 音声タイプを取得する
     // @SoundConst.VoiceType
     private int getVoiceType(int[] healtz){
+
         int healtzSum0 = 0;
         int healtzSum1 = 0;
-        String str = "healtz";
+
         for (int n = 0; n < healtz.length/2; n++){
-            str += healtz[n] + ", ";
             if(healtz[n] >= 0){
                 healtzSum0 += healtz[n];
             }
         }
         for (int n = healtz.length/2; n < healtz.length; n++){
-            str += healtz[n] + ", ";
             if(healtz[n] >= 0){
                 healtzSum1 += healtz[n];
             }
         }
+        mDebugIF.showHealtz(healtz);
 //        str2 += "Hz0:" + healtzSum0/(healtz.length/2) ;
 //        str2 += "Hz1:" + healtzSum1/(healtz.length/2) ;
 //        str2 += "Hz2:" + (healtzSum0+healtzSum1)/healtz.length ;
-        return 0;
+        return SoundConst.VOICE_TYPE_NORMAL;
     }
 
     // 音声レベルを取得する。
@@ -224,7 +230,6 @@ public class VoiceManager {
                 return n;
             }
         }
-
 
         return SoundConst.VOLUME_VALUE.length;
     }

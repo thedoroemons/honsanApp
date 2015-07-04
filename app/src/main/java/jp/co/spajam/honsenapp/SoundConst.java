@@ -16,13 +16,14 @@ public class SoundConst {
     // 音声タイプ　平常
     @IntDef({VOICE_TYPE_NORMAL,VOICE_TYPE_QUESTION,VOICE_TYPE_DOWN,VOICE_TYPE_EXICTE})
     public @interface VoiceType {}
-    public static final int VOICE_TYPE_NORMAL = 0;
+    public static final int VOICE_TYPE_NORMAL = 1;
     // 音声タイプ　疑問
-    public static final int VOICE_TYPE_QUESTION = 1;
+    public static final int VOICE_TYPE_QUESTION = 2;
     // 音声タイプ　落胆
-    public static final int VOICE_TYPE_DOWN = 2;
+    public static final int VOICE_TYPE_DOWN = 3;
     // 音声タイプ　高揚
-    public static final int VOICE_TYPE_EXICTE = 3;
+    public static final int VOICE_TYPE_EXICTE = 4;
+
 
 
     // 音系定数

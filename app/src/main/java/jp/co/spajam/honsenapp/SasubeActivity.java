@@ -1,24 +1,25 @@
 package jp.co.spajam.honsenapp;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 
-public class SasubeActivity extends ActionBarActivity {
+public class SasubeActivity extends ActionBarActivity implements VoiceManager.DebugIF {
+
+    Handler mHandler = new Handler();           //UI Threadへのpost用ハンドラ
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sasube);
-        VoiceManager voiceManager = VoiceManager.getInstance();
+        VoiceManager voiceManager = VoiceManager.getInstance(this);
         voiceManager.startRecording();
 
     }
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -30,7 +31,7 @@ public class SasubeActivity extends ActionBarActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        VoiceManager voiceManager = VoiceManager.getInstance();
+        VoiceManager voiceManager = VoiceManager.getInstance(this);
         voiceManager.stopRecoding();
     }
 
@@ -47,5 +48,23 @@ public class SasubeActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void showHealtz(int[] aFloat) {
+
+        String str = "";
+        for (int n = 0; n < aFloat.length; n++){
+            if(aFloat[n] >= 0){
+                str += aFloat[n] + "\n";
+            }
+        }
+        final String finalStr = str;
+        mHandler.post(new Runnable() {
+            public void run() {
+                ((TextView) findViewById(R.id.textView2)).setText(finalStr);
+            }
+        });
+
     }
 }
