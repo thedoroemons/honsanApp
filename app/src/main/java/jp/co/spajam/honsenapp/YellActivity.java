@@ -193,7 +193,11 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 	@Override
 	public void sendData(String name, float lat, float lon, int volumeLevel, int voiceType) {
 		if(mWebSocketClient.isOpen()){
+			Log.d(TAG, "mWebSocketClient is open. request");
 			mWebSocketClient.reqeustYell(name, lat, lon, volumeLevel, voiceType);
+		}
+		else {
+			Log.d(TAG, "mWebSocketClient is not open.");
 		}
 	}
 }

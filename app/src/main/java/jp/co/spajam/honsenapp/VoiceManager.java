@@ -135,9 +135,9 @@ public class VoiceManager {
                     final float volume = (float) (20.0 * (float)Math.log10(p));
                     Arrays.fill(buf, readSize, fft.fftSize, (short) 0);
                     final float healtz = fft.getHealtz(buf, SoundConst.SAMPLING_RATE);
-                    Log.v("AudioRecord", "read " + buf.length + " bytes");
-                    Log.v("AudioRecord", healtz + " Hz");
-                    Log.v("AudioRecord", volume + " volume");
+//                    Log.v("AudioRecord", "read " + buf.length + " bytes");
+//                    Log.v("AudioRecord", healtz + " Hz");
+//                    Log.v("AudioRecord", volume + " volume");
                     _mHealtzList.add(healtz);
                     _mVolumeList.add(volume);
                 }
