@@ -17,9 +17,9 @@ import java.util.TimerTask;
 public class VoiceManager {
 
     private static final int MAX_I = 100;
-    private final String TAG = getClass().getSimpleName();
+    private final String TAG = "VoiceManager";
 
-    Timer mTimer   = new Timer(true);         //onClickメソッドでインスタンス生成
+    Timer _mTimer = new Timer(true);         //onClickメソッドでインスタンス生成
 
     private boolean _mIsRecording = false;
     private AudioRecord _mAudioRec = null;
@@ -32,13 +32,14 @@ public class VoiceManager {
     private List<Float> _mHealtzList = new ArrayList<>();
 
 
-    interface DebugIF{
-        void showHealtz(int[] aFloat);
+    interface SendDataIF {
+        void showDebugHealtz(int[] aFloat);
+        void sendData(String name, float lat, float lon, int volumeLevel, int voiceType);
     }
-    private static DebugIF mDebugIF;
+    private static SendDataIF mDebugIF;
 
 
-    public static VoiceManager getInstance(DebugIF debugIF){
+    public static VoiceManager getInstance(SendDataIF debugIF){
         if(_mVoiceManager == null){
             _mVoiceManager = new VoiceManager();
             mDebugIF = debugIF;
@@ -134,9 +135,9 @@ public class VoiceManager {
                     final float volume = (float) (20.0 * (float)Math.log10(p));
                     Arrays.fill(buf, readSize, fft.fftSize, (short) 0);
                     final float healtz = fft.getHealtz(buf, SoundConst.SAMPLING_RATE);
-                    Log.v("AudioRecord", "read " + buf.length + " bytes");
-                    Log.v("AudioRecord", healtz + " Hz");
-                    Log.v("AudioRecord", volume + " volume");
+//                    Log.v("AudioRecord", "read " + buf.length + " bytes");
+//                    Log.v("AudioRecord", healtz + " Hz");
+//                    Log.v("AudioRecord", volume + " volume");
                     _mHealtzList.add(healtz);
                     _mVolumeList.add(volume);
                 }
@@ -147,12 +148,14 @@ public class VoiceManager {
         }).start();
 
         PostTimerTask timerTask = new PostTimerTask();
-        mTimer.schedule(timerTask, SoundConst.SENDING_INTERVAL, SoundConst.SENDING_INTERVAL);
+        _mTimer.schedule(timerTask, SoundConst.SENDING_INTERVAL, SoundConst.SENDING_INTERVAL);
 
     }
 
     public void stopRecoding(){
         _mIsRecording = false;
+        _mTimer.cancel();
+        _mTimer = new Timer(true);
     }
 
     private int getMin2Power(int length) {
@@ -181,9 +184,20 @@ public class VoiceManager {
             // 音量レベル
             int volumeLevel = getVolumeLevel(volume);
 
-            Log.d(TAG,"voiceType;" + voiceType + "volumeLevel:" + volumeLevel);
+            // 緯度経度
+            float[] latlonStr = YellApplication.loadLatLon();
+
+            // ユーザ名
+            String name = YellApplication.loadNickname();
 
             // voiceType と volume を渡す。あとlat,lonとニックネーム
+            Log.d(TAG,"voiceType;" + voiceType + "volumeLevel:" + volumeLevel);
+            Log.d(TAG,"lat;" + latlonStr[0] + "lon:" + latlonStr[1]);
+            Log.d(TAG,"name;" + name);
+
+            mDebugIF.sendData(name, latlonStr[0], latlonStr[1], volumeLevel, voiceType);
+
+
         }
     }
 
@@ -204,7 +218,7 @@ public class VoiceManager {
                 healtzSum1 += healtz[n];
             }
         }
-        mDebugIF.showHealtz(healtz);
+        mDebugIF.showDebugHealtz(healtz);
 //        str2 += "Hz0:" + healtzSum0/(healtz.length/2) ;
 //        str2 += "Hz1:" + healtzSum1/(healtz.length/2) ;
 //        str2 += "Hz2:" + (healtzSum0+healtzSum1)/healtz.length ;

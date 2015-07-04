@@ -1,10 +1,8 @@
 package jp.co.spajam.honsenapp;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,6 +29,11 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 //        setTitleColor(getResources().getColor(R.color.main_color));
         ButterKnife.bind(this);
+
+        // 緯度経度を一度だけ取りに行く。SharedPrefに保存する。
+        SLocationManager locationManager = SLocationManager.getInstance();
+        locationManager.startGetCurrentLocation(this);
+
     }
 
     @Override

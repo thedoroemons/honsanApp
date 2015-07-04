@@ -16,6 +16,11 @@ public class YellApplication extends Application {
 	public static final String PREF_NICKNAME_KEY = "NICKNAME";
 	public static final String DEFAULT_NICKNAME = "名無しさん";
 
+	public static final String PREF_LAT_KEY = "LAT";
+	public static final String PREF_LON_KEY = "LON";
+	public static final float DEFAULT_LAT = 135.000f;
+	public static final float DEFAULT_LON = 35.000f;
+
 	private static SharedPreferences pref;
 	private static Resources res;
 
@@ -57,6 +62,41 @@ public class YellApplication extends Application {
 		}
 		String nickname = pref.getString(PREF_NICKNAME_KEY, DEFAULT_NICKNAME);
 		return nickname;
+	}
+
+	/**
+	 * 緯度経度をプリファレンスに保存する
+	 * @param lat,lon
+	 */
+	public static void saveLatLon(float lat, float lon) {
+		if (pref == null) {
+			Log.e(TAG,"pref is null");
+		}
+		if ("".equals(lat)) {
+			lat = DEFAULT_LAT;
+		}
+		if ("".equals(lon)) {
+			lon = DEFAULT_LON;
+		}
+		SharedPreferences.Editor editor = pref.edit();
+		editor.putFloat(PREF_LAT_KEY, lat);
+		editor.putFloat(PREF_LON_KEY, lon);
+		editor.commit();
+	}
+
+	/**
+	 *
+	 * @return
+	 */
+	public static float[] loadLatLon() {
+		if (pref == null) {
+			Log.e(TAG, "pref is null");
+		}
+		float[] latlon = {
+				pref.getFloat(PREF_LAT_KEY, DEFAULT_LAT),
+				pref.getFloat(PREF_LON_KEY, DEFAULT_LON)};
+		return latlon;
+
 	}
 
 	public static int dp2int(int dp) {
