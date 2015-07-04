@@ -1,15 +1,18 @@
 package jp.co.spajam.honsenapp;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.os.Handler;
 import android.content.Intent;
 import android.graphics.drawable.ClipDrawable;
+import android.support.v4.util.Pair;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +34,8 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 	private int mRootWidth;
 	private int mRootHeight;
 	private int mMapHeight;
+	private MapLocation mMapLocation;
+	private int TAMA_SIZE = 3; // volからtamaをどれくらい大きくするかの定数(大きいほどはやくおおきくなる)
 
 	private YellWebSocketClient mWebSocketClient;
 	
@@ -77,6 +82,7 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 			mRootWidth = mRoot.getWidth();
 			mRootHeight = mRoot.getHeight();
 			mMapHeight = mMap.getHeight();
+			mMapLocation = new MapLocation(mMap);
 		}
 		start();
 		super.onWindowFocusChanged(hasFocus);
@@ -134,6 +140,24 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 		objectAnimator.start();
 	}
 
+	// targetのleft,topがとれないときはこちらを使る（暫定バグ対応)
+	private void moveTop( ImageView target ,int duration,Animator.AnimatorListener listener, int top, int left ) {
+
+		float absoluteStartY = 0f; // 現在位置から
+		float absoluteEndY = (top) * -1.0f; // 親RootViewの上まで
+
+		// translationXプロパティを0fから200fに変化させます
+		ObjectAnimator objectAnimator = ObjectAnimator.ofFloat( target, "translationY", absoluteStartY, absoluteEndY );
+
+		// 3秒かけて実行させます
+		objectAnimator.setDuration( duration );
+
+		objectAnimator.addListener(listener);
+
+		// アニメーションを開始します
+		objectAnimator.start();
+	}
+
 	// たまを大きくする
 	private void tamaBig(int vol) {
 		ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams)mTama.getLayoutParams();
@@ -151,7 +175,7 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 
 	@OnClick(R.id.map)
 	public void test(ImageView imageView) {
-		Log.d(TAG,"test");
+		Log.d(TAG, "test");
 		tamaBig(5);
     }
 
@@ -164,6 +188,7 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 	@Override
 	public void onMessage(Yell yell) {
 		Log.d(TAG, "onMessage :" + yell);
+		showYell(yell);
 	}
 
 	@Override
@@ -175,4 +200,68 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 	public void onError(Exception ex) {
 		Log.d(TAG, "onError :" + ex.getMessage());
 	}
+
+	// yellを打ち上げる
+	private void showYell(Yell yell) {
+		int area = yell.getArea();
+		String name = yell.getName();
+		int type = yell.getType();
+		final int vol = yell.getVol();
+
+		// yellを指定された色に
+		int imgResId = R.drawable.yell; //default
+		if (type==1) {
+			imgResId = R.drawable.yell;
+		} else if (type==2) {
+			imgResId = R.drawable.yell2;
+		} else if (type==3) {
+			imgResId = R.drawable.yell3;
+		} else if (type==4) {
+			imgResId = R.drawable.yell4;
+		} else if (type==5) {
+			imgResId = R.drawable.yell5;
+		}
+
+		// 指定地域の上にyellを動的に表示
+		int width = YellApplication.dp2int(15);
+		int height = YellApplication.dp2int(30);
+		final ImageView yellImage = new ImageView(this);
+		yellImage.setImageResource(imgResId);
+		RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(width, height);
+		Pair<Integer,Integer> topLeft = mMapLocation.getLocation(area);
+		int top = topLeft.first - height/2; //画像サイズ文位置調整
+		int left = topLeft.second - width/2;
+		rlp.topMargin = top;
+		rlp.leftMargin = left;
+		mRoot.addView(yellImage, rlp);
+
+		Animator.AnimatorListener listener = new Animator.AnimatorListener() {
+			@Override
+			public void onAnimationStart(Animator animation) {
+
+			}
+
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				tamaBig(vol*TAMA_SIZE); // アニメーション後tamaを大きくする
+				yellImage.setVisibility(View.INVISIBLE); // とりあえ図表示のみ削除
+			}
+
+			@Override
+			public void onAnimationCancel(Animator animation) {
+
+			}
+
+			@Override
+			public void onAnimationRepeat(Animator animation) {
+
+			}
+		};
+
+		// 打ち上げるアニメーション
+		moveTop(yellImage, 3000,listener, top, left);
+	}
+
+
+
 }
