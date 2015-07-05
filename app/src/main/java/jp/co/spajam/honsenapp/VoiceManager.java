@@ -332,7 +332,13 @@ public class VoiceManager {
     // 音声レベルを取得する。
     private int getVolumeLevel(int[] volume){
 
+        if(volume.length == 0){
+            return 0;
+        }
+
         int volumeSum = 0;
+
+
 
         _mDebugIF.showDebugVolume(volume);
 
