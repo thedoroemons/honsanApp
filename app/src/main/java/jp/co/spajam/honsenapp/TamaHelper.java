@@ -1,7 +1,7 @@
 package jp.co.spajam.honsenapp;
 
-import android.media.Image;
 import android.support.v4.util.Pair;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -11,6 +11,7 @@ import android.widget.ImageView;
 public class TamaHelper {
 
 	private ImageView mTama;
+	private int mTamaSize = 50;
 
 	public TamaHelper(ImageView tama) {
 		mTama = tama;
@@ -24,6 +25,9 @@ public class TamaHelper {
 		int afterWidth = currentWidth + vol * 2;
 		int afterHeight = currentHeight + vol;
 		int afterMarginTop = (int)(afterHeight * -0.5);
+        // 引き継ぎ用球サイズ
+        setTamaSize(currentHeight + vol);
+
 		mTama.getLayoutParams().width = afterWidth;
 		mTama.getLayoutParams().height = afterHeight;
 		mlp.topMargin = afterMarginTop;
@@ -40,5 +44,16 @@ public class TamaHelper {
 	private Pair<Integer,Integer> getRandomInTamaTopLeft() {
 		//TODO
 		return null;
+	}
+
+	public void setTamaSize(int tamasize) {
+        Log.d("TEST",  mTamaSize + ":" + tamasize);
+		if(mTamaSize < tamasize){
+			mTamaSize = tamasize;
+		}
+	}
+
+    public int getTamaSize() {
+		return mTamaSize;
 	}
 }

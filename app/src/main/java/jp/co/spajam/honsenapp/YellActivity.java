@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -219,7 +218,7 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 
 		if(mWebSocketClient.isOpen()){
 			Log.d(TAG, "mWebSocketClient is open. request");
-			mWebSocketClient.reqeustYell(name, lat, lon, volumeLevel, voiceType, 10);
+			mWebSocketClient.reqeustYell(name, lat, lon, volumeLevel, voiceType, mTamaHelper.getTamaSize());
 		}
 		else {
 			Log.d(TAG, "mWebSocketClient is not open.");
@@ -232,6 +231,7 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 		final String name = yell.getName();
 		final int type = yell.getType();
 		final int vol = yell.getVol();
+		mTamaHelper.setTamaSize(yell.getTamaSize());
 
 		// yellを指定された色に
 		int imgResId = R.drawable.yell; //default

@@ -54,7 +54,7 @@ public class VoiceManager {
     private void _init(){
 
         _mBufSize = AudioRecord.getMinBufferSize(
-                SoundConst.SAMPLING_RATE,
+                VoiceConst.SAMPLING_RATE,
                 AudioFormat.CHANNEL_IN_MONO,
                 AudioFormat.ENCODING_PCM_16BIT);
 
@@ -65,7 +65,7 @@ public class VoiceManager {
         }
         _mAudioRec = new AudioRecord(
                 MediaRecorder.AudioSource.MIC,
-                SoundConst.SAMPLING_RATE,
+                VoiceConst.SAMPLING_RATE,
                 AudioFormat.CHANNEL_IN_MONO,
                 AudioFormat.ENCODING_PCM_16BIT,
                 _mBufSize);
@@ -140,7 +140,7 @@ public class VoiceManager {
                     if (p < 1.0f) { p = 1.0f; }
                     final float volume = (float) (20.0 * (float)Math.log10(p));
                     Arrays.fill(buf, readSize, fft.fftSize, (short) 0);
-                    final float healtz = fft.getHealtz(buf, SoundConst.SAMPLING_RATE);
+                    final float healtz = fft.getHealtz(buf, VoiceConst.SAMPLING_RATE);
 //                    Log.v("AudioRecord", "read " + buf.length + " bytes");
 //                    Log.v("AudioRecord", healtz + " Hz");
 //                    Log.v("AudioRecord", volume + " volume");
@@ -154,7 +154,7 @@ public class VoiceManager {
         }).start();
 
         PostTimerTask timerTask = new PostTimerTask();
-        _mTimer.schedule(timerTask, SoundConst.SENDING_INTERVAL, SoundConst.SENDING_INTERVAL);
+        _mTimer.schedule(timerTask, VoiceConst.SENDING_INTERVAL, VoiceConst.SENDING_INTERVAL);
 
     }
 
@@ -187,7 +187,7 @@ public class VoiceManager {
             // 音量レベル
             int volumeLevel = getVolumeLevel(volume);
 
-            if(! SoundConst.DEBUG_SEND_VOLUME_0 && volumeLevel == 0){
+            if(! VoiceConst.DEBUG_SEND_VOLUME_0 && volumeLevel == 0){
                 Log.d(TAG,"volumeLevel０なので終了");
                 return;
             }
@@ -214,7 +214,7 @@ public class VoiceManager {
     }
 
     // 音声タイプを取得する
-    // @SoundConst.VoiceType
+    // @VoiceConst.VoiceType
     private int getVoiceType(int[] healtz){
 
         _mDebugIF.showDebugHealtz(healtz);
@@ -236,7 +236,7 @@ public class VoiceManager {
 //        str2 += "Hz0:" + healtzSum0/(healtz.length/2) ;
 //        str2 += "Hz1:" + healtzSum1/(healtz.length/2) ;
 //        str2 += "Hz2:" + (healtzSum0+healtzSum1)/healtz.length ;
-        return SoundConst.VOICE_TYPE_NORMAL;
+        return VoiceConst.VOICE_TYPE_NORMAL;
     }
 
     // 音声レベルを取得する。
@@ -255,13 +255,13 @@ public class VoiceManager {
         int volumeAve = volumeSum/volume.length;
         Log.d(TAG,"volumeAve:" + volumeAve );
 
-        for(int n = 0; n < SoundConst.VOLUME_VALUE.length; n++){
-            if(volumeAve < SoundConst.VOLUME_VALUE[n]){
+        for(int n = 0; n < VoiceConst.VOLUME_VALUE.length; n++){
+            if(volumeAve < VoiceConst.VOLUME_VALUE[n]){
                 return n;
             }
         }
 
-        return SoundConst.VOLUME_VALUE.length;
+        return VoiceConst.VOLUME_VALUE.length;
     }
 
 
