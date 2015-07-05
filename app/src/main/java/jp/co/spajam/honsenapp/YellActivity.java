@@ -31,6 +31,7 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 	private int mRootHeight;
 	private int mMapHeight;
 	private MapLocation mMapLocation;
+	private TamaHelper mTamaHelper;
 	private int TAMA_SIZE = 3; // volからtamaをどれくらい大きくするかの定数(大きいほどはやくおおきくなる)
 
 	private YellWebSocketClient mWebSocketClient;
@@ -41,8 +42,9 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 	@Bind(R.id.map)
 	ImageView mMap;
 
-	@Bind(R.id.yell_sample)
-	ImageView mYellSample;
+//	// サンプルなので不要
+//	@Bind(R.id.yell_sample)
+//	ImageView mYellSample;
 
 	@Bind(R.id.root)
 	RelativeLayout mRoot;
@@ -55,10 +57,6 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 
 		mNickname = YellApplication.loadNickname();
 		Log.d(TAG, "Nickname:" + mNickname);
-
-        // WebSocketサーバーに接続
-		mWebSocketClient = new YellWebSocketClient(URI.create(YellWebSocketClient.SOCKET_SERVER_URL), new Handler(), this);
-		mWebSocketClient.connect();
 
 		// 音を取り始める。
 		VoiceManager voiceManager = VoiceManager.getInstance(this);
@@ -93,6 +91,7 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 			mRootHeight = mRoot.getHeight();
 			mMapHeight = mMap.getHeight();
 			mMapLocation = new MapLocation(mMap);
+			mTamaHelper = new TamaHelper(mTama);
 		}
 		start();
 		super.onWindowFocusChanged(hasFocus);
@@ -123,7 +122,11 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 
 	// ここからいろいろ処理を始める
 	private void start() {
-		moveTop(mYellSample, 3000);
+		// WebSocketサーバーに接続
+		mWebSocketClient = new YellWebSocketClient(URI.create(YellWebSocketClient.SOCKET_SERVER_URL), new Handler(), this);
+		mWebSocketClient.connect();
+
+//		moveTop(mYellSample, 3000); // サンプルなので不要
 	}
 
 
@@ -168,25 +171,10 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 		objectAnimator.start();
 	}
 
-	// たまを大きくする
-	private void tamaBig(int vol) {
-		ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams)mTama.getLayoutParams();
-		int currentWidth = mTama.getLayoutParams().width;
-		int currentHeight = mTama.getLayoutParams().height;
-		int afterWidth = currentWidth + vol * 2;
-		int afterHeight = currentHeight + vol;
-		int afterMarginTop = (int)(afterHeight * -0.5);
-		mTama.getLayoutParams().width = afterWidth;
-		mTama.getLayoutParams().height = afterHeight;
-		mlp.topMargin = afterMarginTop;
-		mTama.setLayoutParams(mlp);
-		mTama.requestLayout();
-	}
-
 	@OnClick(R.id.map)
 	public void test(ImageView imageView) {
 		Log.d(TAG, "test");
-		tamaBig(5);
+		mTamaHelper.tamaBig(5);
     }
 
 	//WebSocketClientからのコールバック
@@ -236,8 +224,8 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 	// yellを打ち上げる
 	private void showYell(Yell yell) {
 		int area = yell.getArea();
-		String name = yell.getName();
-		int type = yell.getType();
+		final String name = yell.getName();
+		final int type = yell.getType();
 		final int vol = yell.getVol();
 
 		// yellを指定された色に
@@ -275,8 +263,9 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 
 			@Override
 			public void onAnimationEnd(Animator animation) {
-				tamaBig(vol*TAMA_SIZE); // アニメーション後tamaを大きくする
+				mTamaHelper.tamaBig(vol*TAMA_SIZE); // アニメーション後tamaを大きくする
 				yellImage.setVisibility(View.INVISIBLE); // とりあえ図表示のみ削除
+				mTamaHelper.showNameInTama(name,type);
 			}
 
 			@Override
