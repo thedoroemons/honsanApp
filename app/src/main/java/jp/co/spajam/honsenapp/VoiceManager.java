@@ -35,7 +35,7 @@ public class VoiceManager {
     interface SendDataIF {
         void showDebugVolume(int[] aIntArr);
         void showDebugHealtz(int[] aIntArr);
-        void sendData(String name, float lat, float lon, int volumeLevel, int voiceType);
+        void sendData(String name, float lat, float lon, int volumeLevel, int voiceType, int additionTama);
     }
     private static SendDataIF _mDebugIF;
 
@@ -208,14 +208,14 @@ public class VoiceManager {
             Log.d(TAG, "lat;" + latlonStr[0] + "lon:" + latlonStr[1]);
             Log.d(TAG, "name;" + name);
 
-            _mDebugIF.sendData(name, latlonStr[0], latlonStr[1], volumeLevel, voiceType);
+            _mDebugIF.sendData(name, latlonStr[0], latlonStr[1], volumeLevel, voiceType, 0);
 
             // vol3以上の時、1/3 STEP後に、送る。
             if(volumeLevel >=3) {
                 _mTimer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        _mDebugIF.sendData(name, latlonStr[0], latlonStr[1], volumeLevel, voiceType);
+                        _mDebugIF.sendData(name, latlonStr[0], latlonStr[1], volumeLevel, voiceType, 1);
                     }
                 }, VoiceConst.SENDING_INTERVAL/3);
             }
@@ -225,7 +225,7 @@ public class VoiceManager {
                 _mTimer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        _mDebugIF.sendData(name, latlonStr[0], latlonStr[1], volumeLevel, voiceType);
+                        _mDebugIF.sendData(name, latlonStr[0], latlonStr[1], volumeLevel, voiceType, 1);
                     }
                 }, VoiceConst.SENDING_INTERVAL * 2/3);
             }

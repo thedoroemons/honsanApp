@@ -99,10 +99,8 @@ public class SasubeActivity extends ActionBarActivity implements VoiceManager.Se
     }
 
     @Override
-    public void sendData(String name, float lat, float lon, int volumeLevel, int voiceType) {
-//        if(mWebSocketClient.isOpen()){
-//            mWebSocketClient.reqeustYell(name, lat, lon, volumeLevel, voiceType, 10);
-//        }
+    public void sendData(String name, float lat, float lon, int volumeLevel, int voiceType, int additionTama) {
+
     }
 
     @Override
