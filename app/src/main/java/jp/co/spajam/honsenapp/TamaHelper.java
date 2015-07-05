@@ -45,7 +45,7 @@ public class TamaHelper {
 	public void tamaBig(int vol) {
 
         // ３倍
-        vol *= 3;
+        vol *= 2;
 
 		ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams)mTama.getLayoutParams();
 		int currentHeight = mTama.getLayoutParams().height;
