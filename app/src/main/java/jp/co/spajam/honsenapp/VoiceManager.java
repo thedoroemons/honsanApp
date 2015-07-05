@@ -31,6 +31,10 @@ public class VoiceManager {
     private List<Float> _mVolumeList = new ArrayList<>();
     private List<Float> _mHealtzList = new ArrayList<>();
 
+    // しばらくそのテンションを継続させる。
+    private int modeTime = 0;
+    private int mode = VoiceConst.VOICE_TYPE_NORMAL;
+
 
     interface SendDataIF {
         void showDebugVolume(int[] aIntArr);
@@ -239,6 +243,11 @@ public class VoiceManager {
     // @VoiceConst.VoiceType
     private int getVoiceType(int volumeLevel, int[] healtz){
 
+        if(modeTime < 4){
+            modeTime++;
+            return mode;
+        }
+
         _mDebugIF.showDebugHealtz(healtz);
 
         int healtzSum = 0;
@@ -278,16 +287,25 @@ public class VoiceManager {
         // if( volumeLevel == 1 || volumeLevel == 2){
 
             if(var <= VoiceConst.HEALTZ_VAR || Math.abs(firstSum - secondSum) < VoiceConst.VALID_DIST ){
-                return VoiceConst.VOICE_TYPE_NORMAL;
+                if(mode != VoiceConst.VOICE_TYPE_NORMAL){
+                    modeTime = 0;
+                }
+                return mode = VoiceConst.VOICE_TYPE_NORMAL;
             }
             else {
                 // 前半が高い
                 if(firstSum > secondSum){
-                    return VoiceConst.VOICE_TYPE_DOWN;
+                    if(mode != VoiceConst.VOICE_TYPE_DOWN){
+                        modeTime = 0;
+                    }
+                    return mode = VoiceConst.VOICE_TYPE_DOWN;
                 }
                 // 後半が高い
                 else {
-                    return VoiceConst.VOICE_TYPE_UP;
+                    if(mode != VoiceConst.VOICE_TYPE_UP){
+                        modeTime = 0;
+                    }
+                    return mode = VoiceConst.VOICE_TYPE_UP;
                 }
             }
         // }
