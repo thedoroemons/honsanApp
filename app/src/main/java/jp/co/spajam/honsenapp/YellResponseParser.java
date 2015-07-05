@@ -14,6 +14,7 @@ public class YellResponseParser {
     private static final String KEY_AREA = "area";
     private static final String KEY_VOL  = "vol";
     private static final String KEY_TYPE = "type";
+    private static final String KEY_TAMA_SIZE= "tama_size";
 
     public static Yell parse(String jsonString) {
         try {
@@ -53,6 +54,10 @@ public class YellResponseParser {
         } else {
             Log.e(TAG, "empty type");
             yell.setType(1);
+        }
+
+        if (jsonObject.has(KEY_TAMA_SIZE)) {
+            yell.setTamaSize(jsonObject.getInt(KEY_TAMA_SIZE));
         }
 
         return yell;
