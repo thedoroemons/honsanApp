@@ -36,13 +36,15 @@ public class VoiceManager {
         void showDebugHealtz(int[] aFloat);
         void sendData(String name, float lat, float lon, int volumeLevel, int voiceType);
     }
-    private static SendDataIF mDebugIF;
+    private static SendDataIF _mDebugIF;
 
 
     public static VoiceManager getInstance(SendDataIF debugIF){
         if(_mVoiceManager == null){
             _mVoiceManager = new VoiceManager();
-            mDebugIF = debugIF;
+        }
+        if(_mDebugIF == null){
+            _mDebugIF = debugIF;
         }
         return _mVoiceManager;
     }
@@ -159,6 +161,7 @@ public class VoiceManager {
         _mIsRecording = false;
         _mTimer.cancel();
         _mTimer = new Timer(true);
+        _mDebugIF = null;
     }
 
     private int getMin2Power(int length) {
@@ -198,7 +201,7 @@ public class VoiceManager {
             Log.d(TAG,"lat;" + latlonStr[0] + "lon:" + latlonStr[1]);
             Log.d(TAG,"name;" + name);
 
-            mDebugIF.sendData(name, latlonStr[0], latlonStr[1], volumeLevel, voiceType);
+            _mDebugIF.sendData(name, latlonStr[0], latlonStr[1], volumeLevel, voiceType);
 
 
         }
@@ -221,7 +224,7 @@ public class VoiceManager {
                 healtzSum1 += healtz[n];
             }
         }
-        mDebugIF.showDebugHealtz(healtz);
+        _mDebugIF.showDebugHealtz(healtz);
 //        str2 += "Hz0:" + healtzSum0/(healtz.length/2) ;
 //        str2 += "Hz1:" + healtzSum1/(healtz.length/2) ;
 //        str2 += "Hz2:" + (healtzSum0+healtzSum1)/healtz.length ;

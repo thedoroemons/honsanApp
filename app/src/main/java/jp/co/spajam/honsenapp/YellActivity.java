@@ -61,6 +61,7 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 		// 音を取り始める。
 		VoiceManager voiceManager = VoiceManager.getInstance(this);
 		voiceManager.startRecording();
+
 	}
 
 	@Override
@@ -75,6 +76,7 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 		VoiceManager voiceManager = VoiceManager.getInstance(this);
 		voiceManager.stopRecoding();
 		mWebSocketClient.close();
+		mWebSocketClient = null;
 	}
 
 	/* (non-Javadoc)
@@ -205,6 +207,11 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 
 	@Override
 	public void sendData(String name, float lat, float lon, int volumeLevel, int voiceType) {
+
+		if(mWebSocketClient == null){
+			return;
+		}
+
 		if(mWebSocketClient.isOpen()){
 			Log.d(TAG, "mWebSocketClient is open. request");
 			mWebSocketClient.reqeustYell(name, lat, lon, volumeLevel, voiceType);
@@ -275,5 +282,7 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 		// 打ち上げるアニメーション
 		moveTop(yellImage, 3000,listener, top, left);
 	}
+
+
 
 }
