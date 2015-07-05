@@ -61,7 +61,7 @@ public class TamaHelper {
 	}
 
 	// たまに打ち上げたyellのニックネームを表示
-	public void showNameInTama(Context context,String nickname,int type) {
+	public void showNameInTama(Context context,String nickname,int type,int vol) {
 		Pair<Integer,Integer> topLeft = getRandomInTamaTopLeft();
 
 		// nicknameを指定された色に
@@ -74,12 +74,27 @@ public class TamaHelper {
 			color = YellApplication.getColor(R.color.yell_yellow);
 		}
 
+		int fontSizeSP;
+		if (vol==1) {
+			fontSizeSP = 12;
+		} else if (vol==2) {
+			fontSizeSP = 14;
+		} else if (vol==3) {
+			fontSizeSP = 16;
+		} else if (vol==4) {
+			fontSizeSP = 18;
+		} else if (vol==5) {
+			fontSizeSP = 20;
+		} else {
+			fontSizeSP = 12;
+		}
+
 		// nicknameを表示
 		int width = YellApplication.dp2int(50); //　適当
 		int height = YellApplication.dp2int(10);//　適当
 		final TextView nicknameText = new TextView(context);
 		nicknameText.setText(nickname);
-		nicknameText.setTextSize(12);//sp
+		nicknameText.setTextSize(fontSizeSP);//sp
 		nicknameText.setLines(1);
 		nicknameText.setTextColor(color);
 		RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);

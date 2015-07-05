@@ -210,8 +210,9 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 		ouenList.add("チャンス");
 		ouenList.add("勝てー");
 		String ouen = ouenList.get(r.nextInt(ouenList.size()));
+		int vol = r.nextInt(5)+1;
 
-		Yell yell = new Yell(ouen,area,3,type);
+		Yell yell = new Yell(ouen,area,vol,type);
 		showYell(yell);
 //		mTamaHelper.tamaBig(5);
     }
@@ -310,7 +311,7 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 			public void onAnimationEnd(Animator animation) {
 				mTamaHelper.tamaBig(vol * TAMA_SIZE); // アニメーション後tamaを大きくする
 				mRoot.removeView(yellImage);
-				mTamaHelper.showNameInTama(YellActivity.this, name, type);
+				mTamaHelper.showNameInTama(YellActivity.this, name, type,vol);
 			}
 
 			@Override
