@@ -261,7 +261,7 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 		mTamaHelper.setTamaSize(yell.getTamaSize());
 
 		// yellを指定された色に
-		int imgResId = R.drawable.yell; //default
+		int imgResId = R.drawable.yell3; //default
 		if (type==1) {
 			imgResId = R.drawable.yell;
 		} else if (type==2) {
@@ -272,6 +272,12 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 			imgResId = R.drawable.yell4;
 		} else if (type==5) {
 			imgResId = R.drawable.yell5;
+		} else if (type==6) {
+			imgResId = R.drawable.yell6;
+		} else if (type==7) {
+			imgResId = R.drawable.yell7;
+		} else {
+			imgResId = R.drawable.yell3;
 		}
 
 		// 指定地域の上にyellを動的に表示
