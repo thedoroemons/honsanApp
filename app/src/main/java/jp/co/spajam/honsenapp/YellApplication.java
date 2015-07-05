@@ -14,7 +14,7 @@ public class YellApplication extends Application {
 	public static final String TAG = YellApplication.class.getSimpleName();
 	public static final String PREFERENCES_FILE_NAME = "YELL";
 	public static final String PREF_NICKNAME_KEY = "NICKNAME";
-	public static final String DEFAULT_NICKNAME = "名無しさん";
+	public static final String DEFAULT_NICKNAME = "頑張れ！";
 
 	public static final String PREF_LAT_KEY = "LAT";
 	public static final String PREF_LON_KEY = "LON";

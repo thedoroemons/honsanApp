@@ -32,7 +32,7 @@ public class VoiceManager {
     private List<Float> _mHealtzList = new ArrayList<>();
 
     // しばらくそのテンションを継続させる。
-    private int modeTime = 0;
+//    private int modeTime = -1;
     private int mode = VoiceConst.VOICE_TYPE_NORMAL;
 
 
@@ -243,11 +243,6 @@ public class VoiceManager {
     // @VoiceConst.VoiceType
     private int getVoiceType(int volumeLevel, int[] healtz){
 
-        if(modeTime < 3){
-            modeTime++;
-            return mode;
-        }
-
         _mDebugIF.showDebugHealtz(healtz);
 
         int healtzSum = 0;
@@ -268,8 +263,8 @@ public class VoiceManager {
 
         int ave  = healtzSum / size;
         int var = 0;
-        int firstSum = 0;
-        int secondSum = 0;
+        int firstSum = 1;
+        int secondSum = 1;
         for (int n = 0; n < size; n++){
             var += (healtzList.get(n) - ave) * (healtzList.get(n) - ave);
 
@@ -286,28 +281,24 @@ public class VoiceManager {
         // 割と平穏
         // if( volumeLevel == 1 || volumeLevel == 2){
 
-            if(var <= VoiceConst.HEALTZ_VAR || Math.abs(firstSum - secondSum) < VoiceConst.VALID_DIST ){
-                if(mode != VoiceConst.VOICE_TYPE_NORMAL){
-                    modeTime = 0;
-                }
-                return mode = VoiceConst.VOICE_TYPE_NORMAL;
+        float val = (firstSum>secondSum)?((float)firstSum/secondSum):((float)secondSum/firstSum);
+
+        Log.d("SOUND00","val:" + val);
+
+        // 差分が激しくない。
+        if(var <= VoiceConst.HEALTZ_VAR * ave || val < VoiceConst.VALID_DIST ){
+            return mode = VoiceConst.VOICE_TYPE_NORMAL;
+        }
+        else {
+            // 前半が高い
+            if(firstSum > secondSum){
+                return mode = VoiceConst.VOICE_TYPE_DOWN;
             }
+            // 後半が高い
             else {
-                // 前半が高い
-                if(firstSum > secondSum){
-                    if(mode != VoiceConst.VOICE_TYPE_DOWN){
-                        modeTime = 0;
-                    }
-                    return mode = VoiceConst.VOICE_TYPE_DOWN;
-                }
-                // 後半が高い
-                else {
-                    if(mode != VoiceConst.VOICE_TYPE_UP){
-                        modeTime = 0;
-                    }
-                    return mode = VoiceConst.VOICE_TYPE_UP;
-                }
+                return mode = VoiceConst.VOICE_TYPE_UP;
             }
+        }
         // }
 
         // かなり過激な状態
