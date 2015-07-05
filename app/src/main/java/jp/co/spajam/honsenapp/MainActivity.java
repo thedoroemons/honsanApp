@@ -31,7 +31,7 @@ public class MainActivity extends ActionBarActivity {
         ButterKnife.bind(this);
 
         // 緯度経度を一度だけ取りに行く。SharedPrefに保存する。
-        SLocationManager locationManager = SLocationManager.getInstance();
+        YellLocationManager locationManager = YellLocationManager.getInstance();
         locationManager.startGetCurrentLocation(this);
 
     }

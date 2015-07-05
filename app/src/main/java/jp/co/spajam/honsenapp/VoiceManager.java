@@ -73,7 +73,7 @@ public class VoiceManager {
         synchronized (_mVolumeList){
             int[] tmp = new int[_mVolumeList.size()];
 
-            for(int n = 0; n<_mVolumeList.size(); n++){
+            for(int n = 0; n< tmp.length; n++){
                 tmp[n] = _mVolumeList.get(n).intValue();
             }
             _mVolumeList.clear();
@@ -88,7 +88,7 @@ public class VoiceManager {
         synchronized (_mHealtzList) {
             int[] tmp = new int[_mHealtzList.size()];
 
-            for(int n = 0; n<_mHealtzList.size(); n++){
+            for(int n = 0; n< tmp.length; n++){
                 tmp[n] = _mHealtzList.get(n).intValue();
             }
 
