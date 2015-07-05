@@ -193,15 +193,28 @@ public class YellActivity extends Activity implements YellWebSocketClient.CallBa
 		animSet.start();
 	}
 
-	// 地図タップで埼玉からエールを送るサンプル
+	// 地図タップで全国からランダムにエールを送るサンプル
 	@OnClick(R.id.map)
 	public void test(ImageView imageView) {
 		Log.d(TAG, "test");
 		Random r = new Random();
 		int type = r.nextInt(3)+1; // 1~3
 		Log.d(TAG,"type"+type);
-		int area = r.nextInt(7)+1; // 1~7
-		Yell yell = new Yell("sample",area,3,type);
+		int area = r.nextInt(8); // 0~7
+		List<String> ouenList = new ArrayList();
+		ouenList.add("頑張れー");
+		ouenList.add("ファイトー");
+		ouenList.add("もっと熱くなれよ！");
+		ouenList.add("がんばれー");
+		ouenList.add("惜しい!");
+		ouenList.add("キター");
+		ouenList.add("頑張れー");
+		ouenList.add("チャンス");
+		ouenList.add("勝てー");
+		String ouen = ouenList.get(r.nextInt(ouenList.size()));
+		int vol = r.nextInt(5)+1;
+
+		Yell yell = new Yell(ouen,area,vol,type);
 		showYell(yell);
 //		mTamaHelper.tamaBig(5);
     }
@@ -240,15 +253,15 @@ public class YellActivity extends Activity implements YellWebSocketClient.CallBa
 	}
 
 	@Override
-	public void sendData(final String name, final float lat, final float lon, final int volumeLevel, final int voiceType) {
+	public void sendData(final String name, final float lat, final float lon, final int volumeLevel, final int voiceType, final int additionTama) {
 
 		if(mWebSocketClient == null){
 			return;
 		}
 
-		if(mWebSocketClient.isOpen()){
+		if(mWebSocketClient.isOpen()) {
 			Log.d(TAG, "mWebSocketClient is open. request");
-			mWebSocketClient.reqeustYell(name, lat, lon, volumeLevel, voiceType, mTamaHelper.getTamaSize());
+			mWebSocketClient.reqeustYell(name, lat, lon, volumeLevel, voiceType, mTamaHelper.getTamaSize() + additionTama);
 		}
 		else {
 			Log.d(TAG, "mWebSocketClient is not open.");
@@ -300,7 +313,7 @@ public class YellActivity extends Activity implements YellWebSocketClient.CallBa
 			public void onAnimationEnd(Animator animation) {
 				mTamaHelper.tamaBig(vol * TAMA_SIZE); // アニメーション後tamaを大きくする
 				mRoot.removeView(yellImage);
-				mTamaHelper.showNameInTama(YellActivity.this, name, type);
+				mTamaHelper.showNameInTama(YellActivity.this, name, type,vol);
 			}
 
 			@Override

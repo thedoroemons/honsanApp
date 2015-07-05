@@ -35,7 +35,7 @@ public class VoiceManager {
     interface SendDataIF {
         void showDebugVolume(int[] aIntArr);
         void showDebugHealtz(int[] aIntArr);
-        void sendData(String name, float lat, float lon, int volumeLevel, int voiceType);
+        void sendData(String name, float lat, float lon, int volumeLevel, int voiceType, int additionTama);
     }
     private static SendDataIF _mDebugIF;
 
@@ -208,14 +208,14 @@ public class VoiceManager {
             Log.d(TAG, "lat;" + latlonStr[0] + "lon:" + latlonStr[1]);
             Log.d(TAG, "name;" + name);
 
-            _mDebugIF.sendData(name, latlonStr[0], latlonStr[1], volumeLevel, voiceType);
+            _mDebugIF.sendData(name, latlonStr[0], latlonStr[1], volumeLevel, voiceType, 0);
 
             // vol3以上の時、1/3 STEP後に、送る。
             if(volumeLevel >=3) {
                 _mTimer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        _mDebugIF.sendData(name, latlonStr[0], latlonStr[1], volumeLevel, voiceType);
+                        _mDebugIF.sendData(name, latlonStr[0], latlonStr[1], volumeLevel, voiceType, 1);
                     }
                 }, VoiceConst.SENDING_INTERVAL/3);
             }
@@ -225,7 +225,7 @@ public class VoiceManager {
                 _mTimer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        _mDebugIF.sendData(name, latlonStr[0], latlonStr[1], volumeLevel, voiceType);
+                        _mDebugIF.sendData(name, latlonStr[0], latlonStr[1], volumeLevel, voiceType, 1);
                     }
                 }, VoiceConst.SENDING_INTERVAL * 2/3);
             }
@@ -321,11 +321,19 @@ public class VoiceManager {
         for (int n = 0; n < volume.length; n++){
             if(volume[n] >= 0){
                 volumeSum += volume[n];
+                // 瞬発力補正
+                if(volume[n]>=16){
+                    volumeSum += 5;
+                }
+                // 瞬発力補正
+                if(volume[n]>=30){
+                    volumeSum += 3;
+                }
             }
         }
 
         int volumeAve = volumeSum/volume.length;
-        Log.d(TAG,"volumeAve:" + volumeAve );
+        Log.d(TAG, "SOUND00 volumeAve:" + volumeAve );
 
         for(int n = 0; n < VoiceConst.VOLUME_VALUE.length; n++){
             if(volumeAve < VoiceConst.VOLUME_VALUE[n]){

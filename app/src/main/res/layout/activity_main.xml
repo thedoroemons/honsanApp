@@ -5,53 +5,61 @@
                 android:background="#ff5151"
                 tools:context=".MainActivity">
 
-    <ImageView
-        android:id="@+id/title_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/yelllogo"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="130dp"/>
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/title_image"
-        android:layout_marginTop="8dp"
-        android:textColor="#fff"
-        android:textSize="20sp"
-        android:text="@string/app_name"
-        />
-    <EditText
-        android:id="@+id/edit_nickname"
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="応援メッセージを入力"
-        android:textSize="16sp"
-        android:textColor="#fff"
-        android:textColorHint="#fff"
-        android:background="@drawable/apptheme_edit_text_holo_light"
-        android:gravity="center"
-        android:inputType="text"
-        android:layout_marginLeft="64dp"
-        android:layout_marginRight="64dp"
-        android:layout_marginTop="40dp"
-        android:layout_below="@+id/title"
-        android:layout_centerHorizontal="true"/>
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/title_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/yelllogo"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="130dp"/>
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/title_image"
+                android:layout_marginTop="8dp"
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:text="@string/app_name"
+                />
+            <EditText
+                android:id="@+id/edit_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="応援メッセージを入力"
+                android:textSize="16sp"
+                android:textColor="#fff"
+                android:textColorHint="#fff"
+                android:background="@drawable/apptheme_edit_text_holo_light"
+                android:gravity="center"
+                android:inputType="text"
+                android:layout_marginLeft="64dp"
+                android:layout_marginRight="64dp"
+                android:layout_marginTop="40dp"
+                android:layout_below="@+id/title"
+                android:layout_centerHorizontal="true"/>
 
-    <Button
-        android:id="@+id/yell_button"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/edit_nickname"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/button_yell_start"
-        android:layout_centerHorizontal="true"
-        android:textColor="#fff"
-        android:text="応援する"/>
+            <Button
+                android:id="@+id/yell_button"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/edit_nickname"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/button_yell_start"
+                android:layout_centerHorizontal="true"
+                android:textColor="#fff"
+                android:text="応援する"/>
 
-
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

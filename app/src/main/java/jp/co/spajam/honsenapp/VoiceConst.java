@@ -12,19 +12,19 @@ public class VoiceConst {
     public static final boolean DEBUG_SEND_VOLUME_0 = false;
 
     // 送信間隔
-    public static final int SENDING_INTERVAL = 1500;
+    public static final int SENDING_INTERVAL = 1100;
 
     // 音声レベル
     // テスト用（しきい値低め）
     // public static final int[] VOLUME_VALUE = {5,8,10,15,20};
     // ちゃんとした用
-    public static final int[] VOLUME_VALUE = {20,35,50,60,70};
+    public static final int[] VOLUME_VALUE = {10,16,23,30,40};
 
     // 音声タイプ　分散しきい値
-    public static final int HEALTZ_VAR = 1000 * 10;
+    public static final int HEALTZ_VAR = 1000 * 4;
 
     // 音声タイプ　前後半有意差
-    public static final int VALID_DIST = 500;
+    public static final int VALID_DIST = 200;
 
     // 音声タイプ　平常
     @IntDef({VOICE_TYPE_UP,VOICE_TYPE_DOWN, VOICE_TYPE_NORMAL})
