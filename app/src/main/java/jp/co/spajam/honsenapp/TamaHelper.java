@@ -1,7 +1,6 @@
 package jp.co.spajam.honsenapp;
 
 import android.content.Context;
-import android.media.Image;
 import android.support.v4.util.Pair;
 import android.util.Log;
 import android.view.ViewGroup;
