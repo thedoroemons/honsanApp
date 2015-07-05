@@ -191,7 +191,7 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 		animSet.start();
 	}
 
-	// 地図タップで埼玉からエールを送るサンプル
+	// 地図タップで全国からランダムにエールを送るサンプル
 	@OnClick(R.id.map)
 	public void test(ImageView imageView) {
 		Log.d(TAG, "test");
@@ -199,7 +199,19 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 		int type = r.nextInt(3)+1; // 1~3
 		Log.d(TAG,"type"+type);
 		int area = r.nextInt(8); // 0~7
-		Yell yell = new Yell("sample",area,3,type);
+		List<String> ouenList = new ArrayList();
+		ouenList.add("頑張れー");
+		ouenList.add("ファイトー");
+		ouenList.add("もっと熱くなれよ！");
+		ouenList.add("がんばれー");
+		ouenList.add("惜しい!");
+		ouenList.add("キター");
+		ouenList.add("頑張れー");
+		ouenList.add("チャンス");
+		ouenList.add("勝てー");
+		String ouen = ouenList.get(r.nextInt(ouenList.size()));
+
+		Yell yell = new Yell(ouen,area,3,type);
 		showYell(yell);
 //		mTamaHelper.tamaBig(5);
     }
