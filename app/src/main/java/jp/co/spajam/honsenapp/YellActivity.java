@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import org.java_websocket.handshake.ServerHandshake;
 
@@ -295,7 +296,7 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 			@Override
 			public void onAnimationEnd(Animator animation) {
 				mTamaHelper.tamaBig(vol * TAMA_SIZE); // アニメーション後tamaを大きくする
-				yellImage.setVisibility(View.INVISIBLE); // とりあえ図表示のみ削除
+				mRoot.removeView(yellImage);
 				mTamaHelper.showNameInTama(YellActivity.this, name, type);
 			}
 
