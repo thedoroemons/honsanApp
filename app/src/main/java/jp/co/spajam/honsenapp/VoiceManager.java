@@ -180,15 +180,21 @@ public class VoiceManager {
 
         @Override
         public void run() {
-            // 周波数
-            int[] healtz = getAndRemoveHealtzList();
-            // 音声タイプ
-            int voiceType = getVoiceType(healtz);
 
             // 音量
             int[] volume = getAndRemoveVolumeList();
             // 音量レベル
             int volumeLevel = getVolumeLevel(volume);
+
+            if(! SoundConst.DEBUG_SEND_VOLUME_0 && volumeLevel == 0){
+                Log.d(TAG,"volumeLevel０なので終了");
+                return;
+            }
+
+            // 周波数
+            int[] healtz = getAndRemoveHealtzList();
+            // 音声タイプ
+            int voiceType = getVoiceType(healtz);
 
             // 緯度経度
             float[] latlonStr = YellApplication.loadLatLon();
@@ -196,13 +202,12 @@ public class VoiceManager {
             // ユーザ名
             String name = YellApplication.loadNickname();
 
-            // voiceType と volume を渡す。あとlat,lonとニックネーム
-            Log.d(TAG,"voiceType;" + voiceType + "volumeLevel:" + volumeLevel);
+            // volume と voiceType を渡す。あとlat,lonとニックネーム
+            Log.d(TAG,"volumeLevel:" + volumeLevel + "voiceType;" + voiceType);
             Log.d(TAG,"lat;" + latlonStr[0] + "lon:" + latlonStr[1]);
             Log.d(TAG,"name;" + name);
 
             _mDebugIF.sendData(name, latlonStr[0], latlonStr[1], volumeLevel, voiceType);
-
 
         }
     }
