@@ -11,22 +11,26 @@ import android.widget.ImageView;
 public class TamaHelper {
 
 	private ImageView mTama;
-	private int mTamaSize = 50;
+	private static int mTamaSize = 50;
 
 	public TamaHelper(ImageView tama) {
 		mTama = tama;
+        // 大きさの初期化（共有データの分）
+        tamaBig(0);
 	}
 
 	// たまを大きくする
 	public void tamaBig(int vol) {
 		ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams)mTama.getLayoutParams();
-		int currentWidth = mTama.getLayoutParams().width;
 		int currentHeight = mTama.getLayoutParams().height;
-		int afterWidth = currentWidth + vol * 2;
-		int afterHeight = currentHeight + vol;
-		int afterMarginTop = (int)(afterHeight * -0.5);
+
         // 引き継ぎ用球サイズ
         setTamaSize(currentHeight + vol);
+
+		int afterWidth = mTamaSize * 2;
+		int afterHeight = mTamaSize;
+		int afterMarginTop = (int)(afterHeight * -0.5);
+
 
 		mTama.getLayoutParams().width = afterWidth;
 		mTama.getLayoutParams().height = afterHeight;
@@ -54,6 +58,6 @@ public class TamaHelper {
 	}
 
     public int getTamaSize() {
-		return mTamaSize;
+        return  Math.max(mTamaSize, mTama.getLayoutParams().height);
 	}
 }

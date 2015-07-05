@@ -18,8 +18,8 @@ public class YellApplication extends Application {
 
 	public static final String PREF_LAT_KEY = "LAT";
 	public static final String PREF_LON_KEY = "LON";
-	public static final float DEFAULT_LAT = 135.000f;
-	public static final float DEFAULT_LON = 35.000f;
+	public static final float DEFAULT_LAT = 35.000f;
+	public static final float DEFAULT_LON = 135.000f;
 
 	private static SharedPreferences pref;
 	private static Resources res;
