@@ -3,7 +3,6 @@ package jp.co.spajam.honsenapp;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.util.Pair;
@@ -11,12 +10,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import org.java_websocket.handshake.ServerHandshake;
 
@@ -261,23 +257,17 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 		mTamaHelper.setTamaSize(yell.getTamaSize());
 
 		// yellを指定された色に
-		int imgResId = R.drawable.yell3; //default
+		int imgResId = R.drawable.yell_water; //default
 		if (type==1) {
-			imgResId = R.drawable.yell;
+			imgResId = R.drawable.yell01;
 		} else if (type==2) {
-			imgResId = R.drawable.yell2;
+			imgResId = R.drawable.yell02;
 		} else if (type==3) {
-			imgResId = R.drawable.yell3;
+			imgResId = R.drawable.yell03;
 		} else if (type==4) {
-			imgResId = R.drawable.yell4;
+			imgResId = R.drawable.yell_pink;
 		} else if (type==5) {
-			imgResId = R.drawable.yell5;
-		} else if (type==6) {
-			imgResId = R.drawable.yell6;
-		} else if (type==7) {
-			imgResId = R.drawable.yell7;
-		} else {
-			imgResId = R.drawable.yell3;
+			imgResId = R.drawable.yell_water;
 		}
 
 		// 指定地域の上にyellを動的に表示

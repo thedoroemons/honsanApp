@@ -12,22 +12,36 @@ public class VoiceConst {
     public static final boolean DEBUG_SEND_VOLUME_0 = false;
 
     // 送信間隔
-    public static final int SENDING_INTERVAL = 1000;
+    public static final int SENDING_INTERVAL = 1500;
 
     // 音声レベル
+    // テスト用（しきい値低め）
     public static final int[] VOLUME_VALUE = {5,10,15,20,25};
-    //public static final int[] VOLUME_VALUE = {20,30,45,60,80};
+    // ちゃんとした用
+    // public static final int[] VOLUME_VALUE = {20,30,45,60,80};
+
+    // 音声タイプ　分散しきい値
+    public static final int HEALTZ_VAR = 1000 * 10;
+
+    // 音声タイプ　前後半有意差
+    public static final int VALID_DIST = 500;
 
     // 音声タイプ　平常
-    @IntDef({VOICE_TYPE_NORMAL,VOICE_TYPE_QUESTION,VOICE_TYPE_DOWN,VOICE_TYPE_EXICTE})
+    @IntDef({VOICE_TYPE_NORMAL, VOICE_TYPE_UP,VOICE_TYPE_DOWN})
     public @interface VoiceType {}
+    // 音声タイプ　通常
     public static final int VOICE_TYPE_NORMAL = 1;
-    // 音声タイプ　疑問
-    public static final int VOICE_TYPE_QUESTION = 2;
-    // 音声タイプ　落胆
+    // 音声タイプ　疑問　ななめうえ
+    public static final int VOICE_TYPE_UP = 2;
+    // 音声タイプ　落胆　ななめした
     public static final int VOICE_TYPE_DOWN = 3;
-    // 音声タイプ　高揚
-    public static final int VOICE_TYPE_EXICTE = 4;
+    // 音声タイプ　大きめ
+//    public static final int VOICE_TYPE_BIG = 4;
+//    // 音声タイプ　高揚　した
+//    public static final int VOICE_TYPE_BIG_UP = 5;
+//    // 音声タイプ　いらだち　うえ
+//    public static final int VOICE_TYPE_BIG_DOWN = 6;
+
 
 
 

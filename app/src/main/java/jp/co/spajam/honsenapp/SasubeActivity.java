@@ -63,12 +63,13 @@ public class SasubeActivity extends ActionBarActivity implements VoiceManager.Se
 
     @Override
     public void showDebugVolume(int[] aIntArr) {
-        String str = "";
+        String str = "(" + aIntArr.length + ")";
         for (int n = 0; n < aIntArr.length; n++){
             if(aIntArr[n] >= 0){
                 str += aIntArr[n] + "\n";
             }
         }
+
         final String finalStr = str;
         mHandler.post(new Runnable() {
             public void run() {
@@ -80,9 +81,11 @@ public class SasubeActivity extends ActionBarActivity implements VoiceManager.Se
     @Override
     public void showDebugHealtz(int[] aIntArr) {
 
-        String str = "";
+        String str = "(" + aIntArr.length + ")";
+
         for (int n = 0; n < aIntArr.length; n++){
-            if(aIntArr[n] >= 0){
+            // 意味のある数値以上
+            if(aIntArr[n] > 10){
                 str += aIntArr[n] + "\n";
             }
         }

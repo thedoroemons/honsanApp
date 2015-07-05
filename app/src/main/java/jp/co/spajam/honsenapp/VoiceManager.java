@@ -154,7 +154,7 @@ public class VoiceManager {
         }).start();
 
         PostTimerTask timerTask = new PostTimerTask();
-        _mTimer.schedule(timerTask, VoiceConst.SENDING_INTERVAL, VoiceConst.SENDING_INTERVAL);
+        _mTimer.schedule(timerTask, VoiceConst.SENDING_INTERVAL * 2, VoiceConst.SENDING_INTERVAL);
 
     }
 
@@ -187,15 +187,15 @@ public class VoiceManager {
             // 音量レベル
             int volumeLevel = getVolumeLevel(volume);
 
+            // 周波数
+            int[] healtz = getAndRemoveHealtzList();
+            // 音声タイプ
+            int voiceType = getVoiceType(volumeLevel, healtz);
+
             if(! VoiceConst.DEBUG_SEND_VOLUME_0 && volumeLevel == 0){
                 Log.d(TAG,"volumeLevel０なので終了");
                 return;
             }
-
-            // 周波数
-            int[] healtz = getAndRemoveHealtzList();
-            // 音声タイプ
-            int voiceType = getVoiceType(healtz);
 
             // 緯度経度
             float[] latlonStr = YellApplication.loadLatLon();
@@ -204,7 +204,7 @@ public class VoiceManager {
             String name = YellApplication.loadNickname();
 
             // volume と voiceType を渡す。あとlat,lonとニックネーム
-            Log.d(TAG,"volumeLevel:" + volumeLevel + "voiceType;" + voiceType);
+            Log.d(TAG,"SOUND00 volumeLevel:" + volumeLevel + "voiceType;" + voiceType);
             Log.d(TAG,"lat;" + latlonStr[0] + "lon:" + latlonStr[1]);
             Log.d(TAG,"name;" + name);
 
@@ -215,28 +215,78 @@ public class VoiceManager {
 
     // 音声タイプを取得する
     // @VoiceConst.VoiceType
-    private int getVoiceType(int[] healtz){
+    private int getVoiceType(int volumeLevel, int[] healtz){
 
         _mDebugIF.showDebugHealtz(healtz);
 
-        int healtzSum0 = 0;
-        int healtzSum1 = 0;
+        int healtzSum = 0;
+        List<Integer> healtzList = new ArrayList<>();
 
-        for (int n = 0; n < healtz.length/2; n++){
-            if(healtz[n] >= 0){
-                healtzSum0 += healtz[n];
-            }
-        }
-        for (int n = healtz.length/2; n < healtz.length; n++){
-            if(healtz[n] >= 0){
-                healtzSum1 += healtz[n];
+        for (int n = 0; n < healtz.length; n++){
+            if(healtz[n] > 10){
+                healtzSum += healtz[n];
+                healtzList.add(healtz[n]);
             }
         }
 
-//        str2 += "Hz0:" + healtzSum0/(healtz.length/2) ;
-//        str2 += "Hz1:" + healtzSum1/(healtz.length/2) ;
-//        str2 += "Hz2:" + (healtzSum0+healtzSum1)/healtz.length ;
-        return VoiceConst.VOICE_TYPE_NORMAL;
+        int size = healtzList.size();
+
+        if(size == 0 || volumeLevel == 0){
+            return VoiceConst.VOICE_TYPE_NORMAL;
+        }
+
+        int ave  = healtzSum / size;
+        int var = 0;
+        int firstSum = 0;
+        int secondSum = 0;
+        for (int n = 0; n < size; n++){
+            var += (healtzList.get(n) - ave) * (healtzList.get(n) - ave);
+
+            if(n < size/2){
+                firstSum += healtzList.get(n);
+            }
+            else {
+                secondSum += healtzList.get(n);
+            }
+        }
+        Log.d("SOUND00","size:" + size + ",ave:" + ave + ",var:" + var);
+        Log.d("SOUND00","firstSum:" + firstSum + ",secondSum:" + secondSum);
+
+        // 割と平穏
+        // if( volumeLevel == 1 || volumeLevel == 2){
+
+            if(var <= VoiceConst.HEALTZ_VAR || Math.abs(firstSum - secondSum) < VoiceConst.VALID_DIST ){
+                return VoiceConst.VOICE_TYPE_NORMAL;
+            }
+            else {
+                // 前半が高い
+                if(firstSum > secondSum){
+                    return VoiceConst.VOICE_TYPE_DOWN;
+                }
+                // 後半が高い
+                else {
+                    return VoiceConst.VOICE_TYPE_UP;
+                }
+            }
+        // }
+
+        // かなり過激な状態
+//        else {
+//            if(var <= VoiceConst.HEALTZ_VAR || Math.abs(firstSum - secondSum) < VoiceConst.VALID_DIST ){
+//                return VoiceConst.VOICE_TYPE_BIG;
+//            }
+//            else {
+//                // 前半が高い
+//                if(firstSum > secondSum){
+//                    return VoiceConst.VOICE_TYPE_BIG_UP;
+//                }
+//                // いらだち
+//                else {
+//                    return VoiceConst.VOICE_TYPE_BIG_DOWN;
+//                }
+//            }
+//        }
+
     }
 
     // 音声レベルを取得する。
