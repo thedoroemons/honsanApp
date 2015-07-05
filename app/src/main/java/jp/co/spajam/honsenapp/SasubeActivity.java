@@ -25,7 +25,7 @@ public class SasubeActivity extends ActionBarActivity implements VoiceManager.Se
         setContentView(R.layout.activity_sasube);
         VoiceManager voiceManager = VoiceManager.getInstance(this);
         voiceManager.startRecording();
-        SLocationManager locationManager = SLocationManager.getInstance();
+        YellLocationManager locationManager = YellLocationManager.getInstance();
         locationManager.startGetCurrentLocation(this);
         // WebSocketサーバーに接続
         mWebSocketClient = new YellWebSocketClient(URI.create(YellWebSocketClient.SOCKET_SERVER_URL), new Handler(), this);

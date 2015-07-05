@@ -10,22 +10,22 @@ import android.util.Log;
 /**
  * Created by masaharu on 2015/07/05.
  */
-public class SLocationManager implements LocationListener {
+public class YellLocationManager implements LocationListener {
 
     private android.location.LocationManager mLocationManager;
 
-    private static SLocationManager _mLocationManager;
+    private static YellLocationManager _mLocationManager;
 
-    public static SLocationManager getInstance(){
+    public static YellLocationManager getInstance(){
         if(_mLocationManager == null){
-            _mLocationManager = new SLocationManager();
+            _mLocationManager = new YellLocationManager();
         }
         return _mLocationManager;
     }
 
     public void startGetCurrentLocation(Context context){
 
-        Log.d("SLocationManager", "緯度経度　取得開始");
+        Log.d("YellLocationManager", "緯度経度　取得開始");
 
         mLocationManager = (android.location.LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
 
@@ -58,7 +58,7 @@ public class SLocationManager implements LocationListener {
         float lat= (float) location.getLatitude();
         float lon= (float) location.getLongitude();
         YellApplication.saveLatLon(lat, lon);
-        Log.d("SLocationManager", "緯度経度　取得完了：" + lat + ":" + lon);
+        Log.d("YellLocationManager", "緯度経度　取得完了：" + lat + ":" + lon);
         mLocationManager.removeUpdates(this);
     }
 
