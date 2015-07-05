@@ -9,15 +9,13 @@ import android.widget.TextView;
 
 import org.java_websocket.handshake.ServerHandshake;
 
-import java.net.URI;
-
 import jp.co.spajam.honsenapp.YellWebSocketClient.CallBackListener;
 
 
 public class SasubeActivity extends ActionBarActivity implements VoiceManager.SendDataIF, CallBackListener {
 
     Handler mHandler = new Handler();           //UI Threadへのpost用ハンドラ
-    private YellWebSocketClient mWebSocketClient;
+    // private YellWebSocketClient mWebSocketClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +26,8 @@ public class SasubeActivity extends ActionBarActivity implements VoiceManager.Se
         YellLocationManager locationManager = YellLocationManager.getInstance();
         locationManager.startGetCurrentLocation(this);
         // WebSocketサーバーに接続
-        mWebSocketClient = new YellWebSocketClient(URI.create(YellWebSocketClient.SOCKET_SERVER_URL), new Handler(), this);
-        mWebSocketClient.connect();
+        // mWebSocketClient = new YellWebSocketClient(URI.create(YellWebSocketClient.SOCKET_SERVER_URL), new Handler(), this);
+        // mWebSocketClient.connect();
 
     }
 
@@ -45,7 +43,7 @@ public class SasubeActivity extends ActionBarActivity implements VoiceManager.Se
         super.onDestroy();
         VoiceManager voiceManager = VoiceManager.getInstance(this);
         voiceManager.stopRecoding();
-        mWebSocketClient.close();
+        // mWebSocketClient.close();
     }
 
     @Override
@@ -99,9 +97,9 @@ public class SasubeActivity extends ActionBarActivity implements VoiceManager.Se
 
     @Override
     public void sendData(String name, float lat, float lon, int volumeLevel, int voiceType) {
-        if(mWebSocketClient.isOpen()){
-            mWebSocketClient.reqeustYell(name, lat, lon, volumeLevel, voiceType);
-        }
+//        if(mWebSocketClient.isOpen()){
+//            mWebSocketClient.reqeustYell(name, lat, lon, volumeLevel, voiceType, 10);
+//        }
     }
 
     @Override

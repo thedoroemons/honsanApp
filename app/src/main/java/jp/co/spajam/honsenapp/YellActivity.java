@@ -1,6 +1,7 @@
 package jp.co.spajam.honsenapp;
 
 import android.animation.Animator;
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.os.Bundle;
@@ -12,12 +13,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -168,8 +172,25 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 
 		objectAnimator.addListener(listener);
 
+
+		// 横揺れアニメーション
+		int shakeDuration = 300;
+        ObjectAnimator shakeAnimator = ObjectAnimator.ofFloat(target, "rotation", -10, 10);
+        shakeAnimator.setDuration(shakeDuration);
+        shakeAnimator.setRepeatCount(duration / shakeDuration);
+        shakeAnimator.setRepeatMode(Animation.REVERSE);
+
+		// アニメーションのリストを作成
+        List<Animator> animators = new ArrayList<>();
+        animators.add(objectAnimator);
+        animators.add(shakeAnimator);
+
+		AnimatorSet animSet = new AnimatorSet();
+		// リストに入っているアニメーションを同時再生する
+		animSet.playTogether(animators);
+
 		// アニメーションを開始します
-		objectAnimator.start();
+		animSet.start();
 	}
 
 	// 地図タップで埼玉からエールを送るサンプル
@@ -223,7 +244,7 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 
 		if(mWebSocketClient.isOpen()){
 			Log.d(TAG, "mWebSocketClient is open. request");
-			mWebSocketClient.reqeustYell(name, lat, lon, volumeLevel, voiceType);
+			mWebSocketClient.reqeustYell(name, lat, lon, volumeLevel, voiceType, mTamaHelper.getTamaSize());
 		}
 		else {
 			Log.d(TAG, "mWebSocketClient is not open.");
@@ -236,6 +257,7 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 		final String name = yell.getName();
 		final int type = yell.getType();
 		final int vol = yell.getVol();
+		mTamaHelper.setTamaSize(yell.getTamaSize());
 
 		// yellを指定された色に
 		int imgResId = R.drawable.yell; //default

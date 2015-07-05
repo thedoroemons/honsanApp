@@ -5,17 +5,18 @@ import android.support.annotation.IntDef;
 /**
  * Created by masaharu on 2015/07/05.
  */
-public class SoundConst {
+public class VoiceConst {
 
     // DEBUGモード
     // 音量０でも送る
-    public static final boolean DEBUG_SEND_VOLUME_0 = true;
+    public static final boolean DEBUG_SEND_VOLUME_0 = false;
 
     // 送信間隔
     public static final int SENDING_INTERVAL = 1000;
 
     // 音声レベル
-    public static final int[] VOLUME_VALUE = {20,30,45,60,80};
+    public static final int[] VOLUME_VALUE = {5,10,15,20,25};
+    //public static final int[] VOLUME_VALUE = {20,30,45,60,80};
 
     // 音声タイプ　平常
     @IntDef({VOICE_TYPE_NORMAL,VOICE_TYPE_QUESTION,VOICE_TYPE_DOWN,VOICE_TYPE_EXICTE})

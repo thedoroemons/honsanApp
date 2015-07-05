@@ -20,6 +20,7 @@ public class TamaHelper {
 
 	private static final String TAG = TamaHelper.class.getSimpleName();
 	private ImageView mTama;
+	private static int mTamaSize = 50;
 	private ViewGroup mParent; //たまの親のレイアウト
 	private List<TextView> mNicknameList = new ArrayList();
 	private static final int MAX_NICKNAME_NUM = 50;
@@ -27,16 +28,23 @@ public class TamaHelper {
 	public TamaHelper(ImageView tama,ViewGroup parent) {
 		mTama = tama;
 		mParent = parent;
+        // 大きさの初期化（共有データの分）
+        tamaBig(0);
 	}
 
 	// たまを大きくする
 	public void tamaBig(int vol) {
 		ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams)mTama.getLayoutParams();
-		int currentWidth = mTama.getLayoutParams().width;
 		int currentHeight = mTama.getLayoutParams().height;
-		int afterWidth = currentWidth + vol * 2;
-		int afterHeight = currentHeight + vol;
+
+        // 引き継ぎ用球サイズ
+        setTamaSize(currentHeight + vol);
+
+		int afterWidth = mTamaSize * 2;
+		int afterHeight = mTamaSize;
 		int afterMarginTop = (int)(afterHeight * -0.5);
+
+
 		mTama.getLayoutParams().width = afterWidth;
 		mTama.getLayoutParams().height = afterHeight;
 		mlp.topMargin = afterMarginTop;
@@ -126,5 +134,14 @@ public class TamaHelper {
 		return Pair.create(rTop,rLeft);
 	}
 
+	public void setTamaSize(int tamasize) {
+        Log.d("TEST",  mTamaSize + ":" + tamasize);
+		if(mTamaSize < tamasize){
+			mTamaSize = tamasize;
+		}
+	}
 
+    public int getTamaSize() {
+        return  Math.max(mTamaSize, mTama.getLayoutParams().height);
+	}
 }

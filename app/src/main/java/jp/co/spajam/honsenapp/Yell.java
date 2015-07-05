@@ -13,6 +13,8 @@ public class Yell {
     private int mVol;
     // 声色 (1~5) (文字色に反映)
     private int mType;
+    // 現在の玉の大きさ
+    private int mTamaSize;
 
     public Yell() {
 
@@ -58,6 +60,14 @@ public class Yell {
         mType = type;
     }
 
+    public int getTamaSize() {
+        return mTamaSize;
+    }
+
+    public void setTamaSize(int tamaSize) {
+        mTamaSize = tamaSize;
+    }
+
     @Override
     public String toString() {
         return "Yell{" +
@@ -65,6 +75,7 @@ public class Yell {
                 ", mArea=" + mArea +
                 ", mVol=" + mVol +
                 ", mType=" + mType +
+                ", mTamaSize=" + mTamaSize +
                 '}';
     }
 }

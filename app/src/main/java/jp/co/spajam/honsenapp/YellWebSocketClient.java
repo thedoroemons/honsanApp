@@ -102,10 +102,10 @@ public class YellWebSocketClient extends WebSocketClient{
      * @param vol 音量
      * @param type 種類
      */
-    public void reqeustYell(String name, float lat, float lon, int vol, int type) {
+    public void reqeustYell(String name, float lat, float lon, int vol, int type, int tamaSize) {
 
         try {
-            send(createRequestString(name, lat, lon, vol, type));
+            send(createRequestString(name, lat, lon, vol, type, tamaSize));
         } catch (JSONException e) {
             Log.e(TAG, "JSONException.  Request cancel.");
         }
@@ -121,13 +121,14 @@ public class YellWebSocketClient extends WebSocketClient{
      * @return JSON文字列
      * @throws JSONException
      */
-    private String createRequestString(String name, float lat, float lon, int vol, int type) throws JSONException{
+    private String createRequestString(String name, float lat, float lon, int vol, int type, int tamaSize) throws JSONException{
         JSONObject json = new JSONObject();
         json.put("name", name);
         json.put("lat", lat);
         json.put("lon", lon);
         json.put("vol", vol);
         json.put("type", type);
+        json.put("tama_size", tamaSize);
 
         return json.toString();
     }
