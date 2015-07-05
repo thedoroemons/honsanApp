@@ -22,7 +22,12 @@ public class TamaHelper {
 	private static int mTamaSize = 50;
 	private ViewGroup mParent; //たまの親のレイアウト
 	private List<TextView> mNicknameList = new ArrayList();
-	private static final int MAX_NICKNAME_NUM = 100;
+	private static final int MAX_NICKNAME_NUM1 = 3;
+	private static final int MAX_NICKNAME_NUM2 = 10;
+	private static final int MAX_NICKNAME_NUM3 = 30;
+	private static final int MAX_NICKNAME_NUM4 = 50;
+	private static final double MAX_TAMA_MULTI = 2.0/3.0;
+	private int mMaxTamaHeight;
 	private int mRootWidth;
 	private int mRootHeight;
 
@@ -31,6 +36,7 @@ public class TamaHelper {
 		mParent = parent;
 		mRootWidth = parent.getWidth();
 		mRootHeight = parent.getHeight();
+		mMaxTamaHeight = (int)(mRootHeight * MAX_TAMA_MULTI);
         // 大きさの初期化（共有データの分）
         tamaBig(0);
 	}
@@ -40,8 +46,8 @@ public class TamaHelper {
 		ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams)mTama.getLayoutParams();
 		int currentHeight = mTama.getLayoutParams().height;
 
-		// 親レイアウト(画面全体を想定)の上部2/3サイズまでを上限とする
-		if (currentHeight > mRootHeight * 2/3) {
+		// 親レイアウト(画面全体を想定)の上部MAX_TAMA_MULTIサイズまでを上限とする
+		if (currentHeight > mMaxTamaHeight) {
 			return;
 		}
 
@@ -105,13 +111,41 @@ public class TamaHelper {
 		mParent.addView(nicknameText, rlp);
 		mNicknameList.add(nicknameText);
 
-		if (mNicknameList.size()>MAX_NICKNAME_NUM) {
-			int removeNum = mNicknameList.size() - MAX_NICKNAME_NUM;
-			for (int i=0;i<removeNum;i++) {
-				TextView removeNickname = mNicknameList.get(i);
-				mParent.removeView(removeNickname);
+		double tamaHeight = mTama.getLayoutParams().height;
+		if (tamaHeight / mMaxTamaHeight < 0.2) {
+			if (mNicknameList.size()>MAX_NICKNAME_NUM1) {
+				int removeNum = mNicknameList.size() - MAX_NICKNAME_NUM1;
+				for (int i=0;i<removeNum;i++) {
+					TextView removeNickname = mNicknameList.get(i);
+					mParent.removeView(removeNickname);
+				}
+			}
+		} else if (tamaHeight / mMaxTamaHeight < 0.65) {
+			if (mNicknameList.size()>MAX_NICKNAME_NUM2) {
+				int removeNum = mNicknameList.size() - MAX_NICKNAME_NUM2;
+				for (int i=0;i<removeNum;i++) {
+					TextView removeNickname = mNicknameList.get(i);
+					mParent.removeView(removeNickname);
+				}
+			}
+		} else if (tamaHeight / mMaxTamaHeight < 0.8){
+			if (mNicknameList.size()>MAX_NICKNAME_NUM3) {
+				int removeNum = mNicknameList.size() - MAX_NICKNAME_NUM3;
+				for (int i=0;i<removeNum;i++) {
+					TextView removeNickname = mNicknameList.get(i);
+					mParent.removeView(removeNickname);
+				}
+			}
+		} else {
+			if (mNicknameList.size()>MAX_NICKNAME_NUM4) {
+				int removeNum = mNicknameList.size() - MAX_NICKNAME_NUM4;
+				for (int i=0;i<removeNum;i++) {
+					TextView removeNickname = mNicknameList.get(i);
+					mParent.removeView(removeNickname);
+				}
 			}
 		}
+
 	}
 
 	// たまのなかの適当な座標をランダムで返す
@@ -144,8 +178,6 @@ public class TamaHelper {
 			int maxX = centerX + (int)(width * heightPos);
 			if (rLeft >= minX && rLeft <= maxX) {
 				break;
-			} else {
-				Log.i(TAG,"hanigai");
 			}
 		}
 
