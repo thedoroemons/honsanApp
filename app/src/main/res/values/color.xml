@@ -3,11 +3,7 @@
 	<color name="main_color">#FF8A65</color>
 	<color name="white">#FFFFFF</color>
 	<color name="black">#000000</color>
-	<color name="yell">#ff83ca27</color> <!-- オリジナル色a0f22c -->
-	<color name="yell2">#f1452b</color>
-	<color name="yell3">#12e4c2</color>
-	<color name="yell4">#2b11e4</color>
-	<color name="yell5">#ffbebe00</color><!-- オリジナル色ffff00 -->
-	<color name="yell6">#ffa5f1</color>
-	<color name="yell7">#ffad00</color>
+	<color name="yell_red">#F44336</color>
+	<color name="yell_blue">#3F51B5</color>
+	<color name="yell_yellow">#FFC107</color>
 </resources>

@@ -65,17 +65,13 @@ public class TamaHelper {
 		Pair<Integer,Integer> topLeft = getRandomInTamaTopLeft();
 
 		// nicknameを指定された色に
-		int color = YellApplication.getColor(R.color.yell); //default
+		int color = YellApplication.getColor(R.color.yell_red); //default
 		if (type==1) {
-			color = YellApplication.getColor(R.color.yell);
+			color = YellApplication.getColor(R.color.yell_red);
 		} else if (type==2) {
-			color = YellApplication.getColor(R.color.yell2);
+			color = YellApplication.getColor(R.color.yell_blue);
 		} else if (type==3) {
-			color = YellApplication.getColor(R.color.yell3);
-		} else if (type==4) {
-			color = YellApplication.getColor(R.color.yell4);
-		} else if (type==5) {
-			color = YellApplication.getColor(R.color.yell5);
+			color = YellApplication.getColor(R.color.yell_yellow);
 		}
 
 		// nicknameを表示
@@ -136,22 +132,6 @@ public class TamaHelper {
 			} else {
 				Log.i(TAG,"hanigai");
 			}
-
-//			// 発行したランダムな座標が楕円内か判定
-//			// X^2*B^2 + Y^2*A^2 ≦ A^2*B^2
-//			boolean isInner;
-//			int b = (int) (height * 0.5); ///楕円の高さ/2
-//			int a = (int) (width * 0.5); //楕円の幅/2
-//			int centerX = leftStart + a; //楕円の中心座標x
-//			int centerY = topStart + b;
-//			int rX = rLeft - centerX; // ランダムな座標を原点中心に表現
-//			int rY = rTop - centerY;
-//			if (rX * rX * b * b + rY * rY * a * a <= a * a * b * b) { // ランダムな点が楕円の内側か TODO はみ出してる..
-//				isInner = true;
-//				break;
-//			} else {
-//				isInner = false;
-//			}
 		}
 
 		return Pair.create(rTop,rLeft);

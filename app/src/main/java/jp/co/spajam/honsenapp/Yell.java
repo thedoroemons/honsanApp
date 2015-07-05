@@ -11,7 +11,7 @@ public class Yell {
     private int mArea;
     // 声の音量 (1~5) (文字の大きさに反映)
     private int mVol;
-    // 声色 (1~5) (文字色に反映)
+    // 声色 (1~3) (文字色に反映)
     private int mType;
     // 現在の玉の大きさ
     private int mTamaSize;

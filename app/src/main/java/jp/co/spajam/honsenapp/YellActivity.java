@@ -19,6 +19,7 @@ import org.java_websocket.handshake.ServerHandshake;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -194,7 +195,11 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 	@OnClick(R.id.map)
 	public void test(ImageView imageView) {
 		Log.d(TAG, "test");
-		Yell yell = new Yell("sample",2,3,1);
+		Random r = new Random();
+		int type = r.nextInt(3)+1; // 1~3
+		Log.d(TAG,"type"+type);
+		int area = r.nextInt(7)+1; // 1~7
+		Yell yell = new Yell("sample",area,3,type);
 		showYell(yell);
 //		mTamaHelper.tamaBig(5);
     }
