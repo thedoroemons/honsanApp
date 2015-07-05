@@ -198,7 +198,7 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 		Random r = new Random();
 		int type = r.nextInt(3)+1; // 1~3
 		Log.d(TAG,"type"+type);
-		int area = r.nextInt(7)+1; // 1~7
+		int area = r.nextInt(8); // 0~7
 		Yell yell = new Yell("sample",area,3,type);
 		showYell(yell);
 //		mTamaHelper.tamaBig(5);
