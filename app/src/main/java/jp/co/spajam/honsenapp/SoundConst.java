@@ -7,6 +7,10 @@ import android.support.annotation.IntDef;
  */
 public class SoundConst {
 
+    // DEBUGモード
+    // 音量０でも送る
+    public static final boolean DEBUG_SEND_VOLUME_0 = true;
+
     // 送信間隔
     public static final int SENDING_INTERVAL = 1000;
 

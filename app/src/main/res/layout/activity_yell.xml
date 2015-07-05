@@ -13,7 +13,7 @@
 		android:layout_alignParentTop="true"
 		android:layout_centerHorizontal="true"
 		android:layout_marginTop="-25dp"
-		android:background="@drawable/circle"/>
+		android:background="@drawable/genki2"/>
 
 	<ImageView
 		android:id="@+id/map"
@@ -24,12 +24,13 @@
 		android:layout_alignParentBottom="true"
 		android:src="@drawable/map"/>
 
-	<ImageView
-		android:id="@+id/yell_sample"
-		android:layout_width="15dp"
-		android:layout_height="30dp"
-		android:layout_alignBottom="@+id/map"
-		android:layout_alignLeft="@+id/map"
-		android:src="@drawable/yell"/>
+	<!-- サンプルなので不要 -->
+	<!--<ImageView-->
+		<!--android:id="@+id/yell_sample"-->
+		<!--android:layout_width="15dp"-->
+		<!--android:layout_height="30dp"-->
+		<!--android:layout_alignBottom="@+id/map"-->
+		<!--android:layout_alignLeft="@+id/map"-->
+		<!--android:src="@drawable/yell"/>-->
 
 </RelativeLayout>
