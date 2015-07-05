@@ -18,10 +18,10 @@ public class VoiceConst {
     // テスト用（しきい値低め）
     // public static final int[] VOLUME_VALUE = {5,8,10,15,20};
     // ちゃんとした用
-    public static final int[] VOLUME_VALUE = {9,16,25,30,40};
+    public static final int[] VOLUME_VALUE = {8,13,18,25,32};
 
     // 音声タイプ　分散しきい値
-    public static final float HEALTZ_VAR = 2.5f;
+    public static final float HEALTZ_VAR = 4.5f;
 
     // 音声タイプ　前後半有意差
     public static final float VALID_DIST = 1.15f;
