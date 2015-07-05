@@ -108,5 +108,11 @@ public class YellApplication extends Application {
 		return padding;
 	}
 
+	public static int getColor(int id) {
+		if (res == null) {
+			Log.e(TAG,"res is null");
+		}
+		return res.getColor(id);
+	}
 
 }

@@ -3,6 +3,7 @@ package jp.co.spajam.honsenapp;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.util.Pair;
@@ -95,7 +96,7 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 			mRootHeight = mRoot.getHeight();
 			mMapHeight = mMap.getHeight();
 			mMapLocation = new MapLocation(mMap);
-			mTamaHelper = new TamaHelper(mTama);
+			mTamaHelper = new TamaHelper(mTama,mRoot);
 		}
 		start();
 		super.onWindowFocusChanged(hasFocus);
@@ -192,10 +193,13 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 		animSet.start();
 	}
 
+	// 地図タップで埼玉からエールを送るサンプル
 	@OnClick(R.id.map)
 	public void test(ImageView imageView) {
 		Log.d(TAG, "test");
-		mTamaHelper.tamaBig(5);
+		Yell yell = new Yell("sample",2,3,1);
+		showYell(yell);
+//		mTamaHelper.tamaBig(5);
     }
 
 	//WebSocketClientからのコールバック
@@ -290,9 +294,9 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 
 			@Override
 			public void onAnimationEnd(Animator animation) {
-				mTamaHelper.tamaBig(vol*TAMA_SIZE); // アニメーション後tamaを大きくする
+				mTamaHelper.tamaBig(vol * TAMA_SIZE); // アニメーション後tamaを大きくする
 				yellImage.setVisibility(View.INVISIBLE); // とりあえ図表示のみ削除
-				mTamaHelper.showNameInTama(name, type);
+				mTamaHelper.showNameInTama(YellActivity.this, name, type);
 			}
 
 			@Override
