@@ -243,7 +243,7 @@ public class VoiceManager {
     // @VoiceConst.VoiceType
     private int getVoiceType(int volumeLevel, int[] healtz){
 
-        if(modeTime < 4){
+        if(modeTime < 3){
             modeTime++;
             return mode;
         }
