@@ -275,6 +275,7 @@ public class VoiceManager {
                 secondSum += healtzList.get(n);
             }
         }
+        firstSum *= 1.13;
         Log.d("SOUND00","size:" + size + ",ave:" + ave + ",var:" + var);
         Log.d("SOUND00","firstSum:" + firstSum + ",secondSum:" + secondSum);
 
