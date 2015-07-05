@@ -56,13 +56,14 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 		mNickname = YellApplication.loadNickname();
 		Log.d(TAG, "Nickname:" + mNickname);
 
+        // WebSocketサーバーに接続
+		mWebSocketClient = new YellWebSocketClient(URI.create(YellWebSocketClient.SOCKET_SERVER_URL), new Handler(), this);
+		mWebSocketClient.connect();
+
 		// 音を取り始める。
 		VoiceManager voiceManager = VoiceManager.getInstance(this);
 		voiceManager.startRecording();
 
-        // WebSocketサーバーに接続
-		mWebSocketClient = new YellWebSocketClient(URI.create(YellWebSocketClient.SOCKET_SERVER_URL), new Handler(), this);
-		mWebSocketClient.connect();
 	}
 
 	@Override
@@ -77,6 +78,7 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 		VoiceManager voiceManager = VoiceManager.getInstance(this);
 		voiceManager.stopRecoding();
 		mWebSocketClient.close();
+		mWebSocketClient = null;
 	}
 
 	/* (non-Javadoc)
@@ -217,6 +219,11 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 
 	@Override
 	public void sendData(String name, float lat, float lon, int volumeLevel, int voiceType) {
+
+		if(mWebSocketClient == null){
+			return;
+		}
+
 		if(mWebSocketClient.isOpen()){
 			Log.d(TAG, "mWebSocketClient is open. request");
 			mWebSocketClient.reqeustYell(name, lat, lon, volumeLevel, voiceType);
