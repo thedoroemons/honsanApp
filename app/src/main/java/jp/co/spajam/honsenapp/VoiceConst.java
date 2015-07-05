@@ -12,7 +12,7 @@ public class VoiceConst {
     public static final boolean DEBUG_SEND_VOLUME_0 = false;
 
     // 送信間隔
-    public static final int SENDING_INTERVAL = 1500;
+    public static final int SENDING_INTERVAL = 1100;
 
     // 音声レベル
     // テスト用（しきい値低め）

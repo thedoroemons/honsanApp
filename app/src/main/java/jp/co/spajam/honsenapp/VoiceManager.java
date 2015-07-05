@@ -321,11 +321,15 @@ public class VoiceManager {
         for (int n = 0; n < volume.length; n++){
             if(volume[n] >= 0){
                 volumeSum += volume[n];
+                // 瞬発力補正
+                if(volume[n]>=15){
+                    volumeSum += 5;
+                }
             }
         }
 
         int volumeAve = volumeSum/volume.length;
-        Log.d(TAG,"volumeAve:" + volumeAve );
+        Log.d(TAG, "volumeAve:" + volumeAve );
 
         for(int n = 0; n < VoiceConst.VOLUME_VALUE.length; n++){
             if(volumeAve < VoiceConst.VOLUME_VALUE[n]){
