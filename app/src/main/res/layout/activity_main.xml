@@ -8,37 +8,47 @@
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 tools:context=".MainActivity">
 
-    <ImageView
-        android:id="@+id/title_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/icon_megaphone"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="130dp"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/title_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_megaphone"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_marginTop="130dp">
+                <requestFocus />
+            </ImageView>
 
-    <EditText
-        android:id="@+id/edit_nickname"
-        android:layout_width="165dp"
-        android:layout_height="wrap_content"
-        android:hint="ニックネームを入力"
-        android:textSize="16sp"
-        android:gravity="center"
-        android:inputType="text"
-        android:layout_marginTop="40dp"
-        android:layout_below="@+id/title_image"
-        android:layout_centerHorizontal="true"/>
+            <EditText
+                android:id="@+id/edit_nickname"
+                android:layout_width="165dp"
+                android:layout_height="wrap_content"
+                android:hint="ニックネームを入力"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:inputType="text"
+                android:layout_marginTop="40dp"
+                android:layout_below="@+id/title_image"
+                android:layout_centerHorizontal="true"/>
 
-    <Button
-        android:id="@+id/yell_button"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/edit_nickname"
-        android:layout_marginTop="40dp"
-        android:background="@color/main_color"
-        android:layout_centerHorizontal="true"
-        android:text="応援する"/>
-
-
+            <Button
+                android:id="@+id/yell_button"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/edit_nickname"
+                android:layout_marginTop="40dp"
+                android:background="@color/main_color"
+                android:layout_centerHorizontal="true"
+                android:text="応援する"/>
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>
