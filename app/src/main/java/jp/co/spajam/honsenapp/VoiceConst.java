@@ -18,7 +18,7 @@ public class VoiceConst {
     // テスト用（しきい値低め）
     // public static final int[] VOLUME_VALUE = {5,8,10,15,20};
     // ちゃんとした用
-    public static final int[] VOLUME_VALUE = {13,20,35,45,60};
+    public static final int[] VOLUME_VALUE = {12,20,32,40,50};
 
     // 音声タイプ　分散しきい値
     public static final int HEALTZ_VAR = 1000 * 5;
