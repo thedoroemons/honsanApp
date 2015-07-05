@@ -43,6 +43,10 @@ public class TamaHelper {
 
 	// たまを大きくする
 	public void tamaBig(int vol) {
+
+        // ３倍
+        vol *= 3;
+
 		ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams)mTama.getLayoutParams();
 		int currentHeight = mTama.getLayoutParams().height;
 
