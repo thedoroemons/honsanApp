@@ -1,6 +1,7 @@
 package jp.co.spajam.honsenapp;
 
 import android.animation.Animator;
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,12 +11,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -166,8 +171,25 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 
 		objectAnimator.addListener(listener);
 
+
+		// 横揺れアニメーション
+		int shakeDuration = 300;
+        ObjectAnimator shakeAnimator = ObjectAnimator.ofFloat(target, "rotation", -10, 10);
+        shakeAnimator.setDuration(shakeDuration);
+        shakeAnimator.setRepeatCount(duration / shakeDuration);
+        shakeAnimator.setRepeatMode(Animation.REVERSE);
+
+		// アニメーションのリストを作成
+        List<Animator> animators = new ArrayList<>();
+        animators.add(objectAnimator);
+        animators.add(shakeAnimator);
+
+		AnimatorSet animSet = new AnimatorSet();
+		// リストに入っているアニメーションを同時再生する
+		animSet.playTogether(animators);
+
 		// アニメーションを開始します
-		objectAnimator.start();
+		animSet.start();
 	}
 
 	@OnClick(R.id.map)
@@ -270,7 +292,7 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 			public void onAnimationEnd(Animator animation) {
 				mTamaHelper.tamaBig(vol*TAMA_SIZE); // アニメーション後tamaを大きくする
 				yellImage.setVisibility(View.INVISIBLE); // とりあえ図表示のみ削除
-				mTamaHelper.showNameInTama(name,type);
+				mTamaHelper.showNameInTama(name, type);
 			}
 
 			@Override
