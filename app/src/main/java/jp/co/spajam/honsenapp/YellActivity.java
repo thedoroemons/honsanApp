@@ -3,6 +3,8 @@ package jp.co.spajam.honsenapp;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.util.Pair;
@@ -26,7 +28,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class YellActivity extends ActionBarActivity implements YellWebSocketClient.CallBackListener, VoiceManager.SendDataIF{
+public class YellActivity extends Activity implements YellWebSocketClient.CallBackListener, VoiceManager.SendDataIF{
 
 	public static final String TAG = YellActivity.class.getSimpleName();
 	private String mNickname;
