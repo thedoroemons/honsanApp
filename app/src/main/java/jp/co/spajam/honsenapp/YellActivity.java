@@ -10,11 +10,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import org.java_websocket.handshake.ServerHandshake;
 
@@ -259,17 +257,17 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 		mTamaHelper.setTamaSize(yell.getTamaSize());
 
 		// yellを指定された色に
-		int imgResId = R.drawable.yell; //default
+		int imgResId = R.drawable.yell_water; //default
 		if (type==1) {
-			imgResId = R.drawable.yell;
+			imgResId = R.drawable.yell01;
 		} else if (type==2) {
-			imgResId = R.drawable.yell2;
+			imgResId = R.drawable.yell02;
 		} else if (type==3) {
-			imgResId = R.drawable.yell3;
+			imgResId = R.drawable.yell03;
 		} else if (type==4) {
-			imgResId = R.drawable.yell4;
+			imgResId = R.drawable.yell_pink;
 		} else if (type==5) {
-			imgResId = R.drawable.yell5;
+			imgResId = R.drawable.yell_water;
 		}
 
 		// 指定地域の上にyellを動的に表示

@@ -31,6 +31,6 @@
 		<!--android:layout_height="30dp"-->
 		<!--android:layout_alignBottom="@+id/map"-->
 		<!--android:layout_alignLeft="@+id/map"-->
-		<!--android:src="@drawable/yell"/>-->
+		<!--android:src="@drawable/yell_green"/>-->
 
 </RelativeLayout>

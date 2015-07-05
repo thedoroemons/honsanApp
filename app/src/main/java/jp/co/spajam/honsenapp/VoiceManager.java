@@ -253,7 +253,7 @@ public class VoiceManager {
         Log.d("SOUND00","firstSum:" + firstSum + ",secondSum:" + secondSum);
 
         // 割と平穏
-        if( volumeLevel == 1 || volumeLevel == 2){
+        // if( volumeLevel == 1 || volumeLevel == 2){
 
             if(var <= VoiceConst.HEALTZ_VAR || Math.abs(firstSum - secondSum) < VoiceConst.VALID_DIST ){
                 return VoiceConst.VOICE_TYPE_NORMAL;
@@ -268,24 +268,24 @@ public class VoiceManager {
                     return VoiceConst.VOICE_TYPE_UP;
                 }
             }
-        }
+        // }
 
         // かなり過激な状態
-        else {
-            if(var <= VoiceConst.HEALTZ_VAR || Math.abs(firstSum - secondSum) < VoiceConst.VALID_DIST ){
-                return VoiceConst.VOICE_TYPE_BIG;
-            }
-            else {
-                // 前半が高い
-                if(firstSum > secondSum){
-                    return VoiceConst.VOICE_TYPE_BIG_UP;
-                }
-                // いらだち
-                else {
-                    return VoiceConst.VOICE_TYPE_BIG_DOWN;
-                }
-            }
-        }
+//        else {
+//            if(var <= VoiceConst.HEALTZ_VAR || Math.abs(firstSum - secondSum) < VoiceConst.VALID_DIST ){
+//                return VoiceConst.VOICE_TYPE_BIG;
+//            }
+//            else {
+//                // 前半が高い
+//                if(firstSum > secondSum){
+//                    return VoiceConst.VOICE_TYPE_BIG_UP;
+//                }
+//                // いらだち
+//                else {
+//                    return VoiceConst.VOICE_TYPE_BIG_DOWN;
+//                }
+//            }
+//        }
 
     }
 

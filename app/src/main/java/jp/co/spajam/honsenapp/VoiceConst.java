@@ -27,7 +27,7 @@ public class VoiceConst {
     public static final int VALID_DIST = 500;
 
     // 音声タイプ　平常
-    @IntDef({VOICE_TYPE_NORMAL, VOICE_TYPE_UP,VOICE_TYPE_DOWN, VOICE_TYPE_BIG_UP})
+    @IntDef({VOICE_TYPE_NORMAL, VOICE_TYPE_UP,VOICE_TYPE_DOWN})
     public @interface VoiceType {}
     // 音声タイプ　通常
     public static final int VOICE_TYPE_NORMAL = 1;
@@ -36,11 +36,11 @@ public class VoiceConst {
     // 音声タイプ　落胆　ななめした
     public static final int VOICE_TYPE_DOWN = 3;
     // 音声タイプ　大きめ
-    public static final int VOICE_TYPE_BIG = 4;
-    // 音声タイプ　高揚　した
-    public static final int VOICE_TYPE_BIG_UP = 5;
-    // 音声タイプ　いらだち　うえ
-    public static final int VOICE_TYPE_BIG_DOWN = 6;
+//    public static final int VOICE_TYPE_BIG = 4;
+//    // 音声タイプ　高揚　した
+//    public static final int VOICE_TYPE_BIG_UP = 5;
+//    // 音声タイプ　いらだち　うえ
+//    public static final int VOICE_TYPE_BIG_DOWN = 6;
 
 
 
