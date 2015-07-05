@@ -238,7 +238,7 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 	}
 
 	@Override
-	public void sendData(String name, float lat, float lon, int volumeLevel, int voiceType) {
+	public void sendData(final String name, final float lat, final float lon, final int volumeLevel, final int voiceType) {
 
 		if(mWebSocketClient == null){
 			return;

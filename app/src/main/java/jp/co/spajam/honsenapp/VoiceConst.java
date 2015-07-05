@@ -16,9 +16,9 @@ public class VoiceConst {
 
     // 音声レベル
     // テスト用（しきい値低め）
-    public static final int[] VOLUME_VALUE = {5,10,15,20,25};
+    // public static final int[] VOLUME_VALUE = {5,8,10,15,20};
     // ちゃんとした用
-    // public static final int[] VOLUME_VALUE = {20,30,45,60,80};
+    public static final int[] VOLUME_VALUE = {20,35,50,60,70};
 
     // 音声タイプ　分散しきい値
     public static final int HEALTZ_VAR = 1000 * 10;
@@ -27,14 +27,14 @@ public class VoiceConst {
     public static final int VALID_DIST = 500;
 
     // 音声タイプ　平常
-    @IntDef({VOICE_TYPE_NORMAL, VOICE_TYPE_UP,VOICE_TYPE_DOWN})
+    @IntDef({VOICE_TYPE_UP,VOICE_TYPE_DOWN, VOICE_TYPE_NORMAL})
     public @interface VoiceType {}
-    // 音声タイプ　通常
-    public static final int VOICE_TYPE_NORMAL = 1;
     // 音声タイプ　疑問　ななめうえ
-    public static final int VOICE_TYPE_UP = 2;
+    public static final int VOICE_TYPE_UP = 1;
     // 音声タイプ　落胆　ななめした
-    public static final int VOICE_TYPE_DOWN = 3;
+    public static final int VOICE_TYPE_DOWN = 2;
+    // 音声タイプ　通常
+    public static final int VOICE_TYPE_NORMAL = 3;
     // 音声タイプ　大きめ
 //    public static final int VOICE_TYPE_BIG = 4;
 //    // 音声タイプ　高揚　した

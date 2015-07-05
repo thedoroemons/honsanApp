@@ -185,12 +185,12 @@ public class VoiceManager {
             // 音量
             int[] volume = getAndRemoveVolumeList();
             // 音量レベル
-            int volumeLevel = getVolumeLevel(volume);
+            final int volumeLevel = getVolumeLevel(volume);
 
             // 周波数
             int[] healtz = getAndRemoveHealtzList();
             // 音声タイプ
-            int voiceType = getVoiceType(volumeLevel, healtz);
+            final int voiceType = getVoiceType(volumeLevel, healtz);
 
             if(! VoiceConst.DEBUG_SEND_VOLUME_0 && volumeLevel == 0){
                 Log.d(TAG,"volumeLevel０なので終了");
@@ -198,17 +198,39 @@ public class VoiceManager {
             }
 
             // 緯度経度
-            float[] latlonStr = YellApplication.loadLatLon();
+            final float[] latlonStr = YellApplication.loadLatLon();
 
             // ユーザ名
-            String name = YellApplication.loadNickname();
+            final String name = YellApplication.loadNickname();
 
             // volume と voiceType を渡す。あとlat,lonとニックネーム
             Log.d(TAG,"SOUND00 volumeLevel:" + volumeLevel + "voiceType;" + voiceType);
-            Log.d(TAG,"lat;" + latlonStr[0] + "lon:" + latlonStr[1]);
-            Log.d(TAG,"name;" + name);
+            Log.d(TAG, "lat;" + latlonStr[0] + "lon:" + latlonStr[1]);
+            Log.d(TAG, "name;" + name);
 
             _mDebugIF.sendData(name, latlonStr[0], latlonStr[1], volumeLevel, voiceType);
+
+            // vol3以上の時、1/3 STEP後に、送る。
+            if(volumeLevel >=3) {
+                _mTimer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        _mDebugIF.sendData(name, latlonStr[0], latlonStr[1], volumeLevel, voiceType);
+                    }
+                }, VoiceConst.SENDING_INTERVAL/3);
+            }
+
+            // vol4以上の時、2/3 STEP後に、送る。
+            if(volumeLevel >=4) {
+                _mTimer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        _mDebugIF.sendData(name, latlonStr[0], latlonStr[1], volumeLevel, voiceType);
+                    }
+                }, VoiceConst.SENDING_INTERVAL * 2/3);
+            }
+
+
 
         }
     }
