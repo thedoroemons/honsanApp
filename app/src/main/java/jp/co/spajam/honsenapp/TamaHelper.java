@@ -24,10 +24,14 @@ public class TamaHelper {
 	private ViewGroup mParent; //たまの親のレイアウト
 	private List<TextView> mNicknameList = new ArrayList();
 	private static final int MAX_NICKNAME_NUM = 100;
+	private int mRootWidth;
+	private int mRootHeight;
 
 	public TamaHelper(ImageView tama,ViewGroup parent) {
 		mTama = tama;
 		mParent = parent;
+		mRootWidth = parent.getWidth();
+		mRootHeight = parent.getHeight();
         // 大きさの初期化（共有データの分）
         tamaBig(0);
 	}
@@ -36,6 +40,11 @@ public class TamaHelper {
 	public void tamaBig(int vol) {
 		ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams)mTama.getLayoutParams();
 		int currentHeight = mTama.getLayoutParams().height;
+
+		// 親レイアウト(画面全体を想定)の上部2/3サイズまでを上限とする
+		if (currentHeight > mRootHeight * 2/3) {
+			return;
+		}
 
         // 引き継ぎ用球サイズ
         setTamaSize(currentHeight + vol);
