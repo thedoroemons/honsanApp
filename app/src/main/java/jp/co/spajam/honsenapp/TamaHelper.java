@@ -79,11 +79,12 @@ public class TamaHelper {
 		}
 
 		// nicknameを表示
-		int width = YellApplication.dp2int(30); //　適当
-		int height = YellApplication.dp2int(0);//　適当
+		int width = YellApplication.dp2int(50); //　適当
+		int height = YellApplication.dp2int(10);//　適当
 		final TextView nicknameText = new TextView(context);
 		nicknameText.setText(nickname);
 		nicknameText.setTextSize(12);//sp
+		nicknameText.setLines(1);
 		nicknameText.setTextColor(color);
 		RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 		int top = topLeft.first - height; //位置調整
@@ -122,21 +123,35 @@ public class TamaHelper {
 			rLeft = leftStart + rWidth;
 			rTop = topStart + rHeight;
 
-			// 発行したランダムな座標が楕円内か判定
-			// X^2*B^2 + Y^2*A^2 ≦ A^2*B^2
-			boolean isInner;
+			// 発行したランダムな座標が楕円に内接する二等辺三角形の内部か判定
+			double heightPos = 1 - ((double)rHeight / (double)height);
 			int b = (int) (height * 0.5); ///楕円の高さ/2
 			int a = (int) (width * 0.5); //楕円の幅/2
 			int centerX = leftStart + a; //楕円の中心座標x
 			int centerY = topStart + b;
-			int rX = rLeft - centerX; // ランダムな座標を原点中心に表現
-			int rY = rTop - centerY;
-			if (rX * rX * b * b + rY * rY * a * a <= a * a * b * b) { // ランダムな点が楕円の内側か TODO はみ出してる..
-				isInner = true;
+			int minX = centerX - (int)(width * heightPos);
+			int maxX = centerX + (int)(width * heightPos);
+			if (rLeft >= minX && rLeft <= maxX) {
 				break;
 			} else {
-				isInner = false;
+				Log.i(TAG,"hanigai");
 			}
+
+//			// 発行したランダムな座標が楕円内か判定
+//			// X^2*B^2 + Y^2*A^2 ≦ A^2*B^2
+//			boolean isInner;
+//			int b = (int) (height * 0.5); ///楕円の高さ/2
+//			int a = (int) (width * 0.5); //楕円の幅/2
+//			int centerX = leftStart + a; //楕円の中心座標x
+//			int centerY = topStart + b;
+//			int rX = rLeft - centerX; // ランダムな座標を原点中心に表現
+//			int rY = rTop - centerY;
+//			if (rX * rX * b * b + rY * rY * a * a <= a * a * b * b) { // ランダムな点が楕円の内側か TODO はみ出してる..
+//				isInner = true;
+//				break;
+//			} else {
+//				isInner = false;
+//			}
 		}
 
 		return Pair.create(rTop,rLeft);
