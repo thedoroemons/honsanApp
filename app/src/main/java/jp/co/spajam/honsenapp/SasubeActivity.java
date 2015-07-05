@@ -64,18 +64,34 @@ public class SasubeActivity extends ActionBarActivity implements VoiceManager.Se
     }
 
     @Override
-    public void showDebugHealtz(int[] aFloat) {
-
+    public void showDebugVolume(int[] aIntArr) {
         String str = "";
-        for (int n = 0; n < aFloat.length; n++){
-            if(aFloat[n] >= 0){
-                str += aFloat[n] + "\n";
+        for (int n = 0; n < aIntArr.length; n++){
+            if(aIntArr[n] >= 0){
+                str += aIntArr[n] + "\n";
             }
         }
         final String finalStr = str;
         mHandler.post(new Runnable() {
             public void run() {
                 ((TextView) findViewById(R.id.textView2)).setText(finalStr);
+            }
+        });
+    }
+
+    @Override
+    public void showDebugHealtz(int[] aIntArr) {
+
+        String str = "";
+        for (int n = 0; n < aIntArr.length; n++){
+            if(aIntArr[n] >= 0){
+                str += aIntArr[n] + "\n";
+            }
+        }
+        final String finalStr = str;
+        mHandler.post(new Runnable() {
+            public void run() {
+                ((TextView) findViewById(R.id.textView3)).setText(finalStr);
             }
         });
 

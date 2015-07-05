@@ -144,7 +144,7 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 		ObjectAnimator objectAnimator = ObjectAnimator.ofFloat( target, "translationY", absoluteStartY, absoluteEndY );
 
 		// 3秒かけて実行させます
-		objectAnimator.setDuration( duration );
+		objectAnimator.setDuration(duration);
 
 		// アニメーションを開始します
 		objectAnimator.start();
@@ -213,7 +213,12 @@ public class YellActivity extends ActionBarActivity implements YellWebSocketClie
 
 
 	@Override
-	public void showDebugHealtz(int[] aFloat) {
+	public void showDebugVolume(int[] aIntArr) {
+
+	}
+
+	@Override
+	public void showDebugHealtz(int[] aIntArr) {
 
 	}
 

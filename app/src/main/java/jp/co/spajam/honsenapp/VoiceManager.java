@@ -33,7 +33,8 @@ public class VoiceManager {
 
 
     interface SendDataIF {
-        void showDebugHealtz(int[] aFloat);
+        void showDebugVolume(int[] aIntArr);
+        void showDebugHealtz(int[] aIntArr);
         void sendData(String name, float lat, float lon, int volumeLevel, int voiceType);
     }
     private static SendDataIF _mDebugIF;
@@ -216,6 +217,8 @@ public class VoiceManager {
     // @SoundConst.VoiceType
     private int getVoiceType(int[] healtz){
 
+        _mDebugIF.showDebugHealtz(healtz);
+
         int healtzSum0 = 0;
         int healtzSum1 = 0;
 
@@ -229,7 +232,7 @@ public class VoiceManager {
                 healtzSum1 += healtz[n];
             }
         }
-        _mDebugIF.showDebugHealtz(healtz);
+
 //        str2 += "Hz0:" + healtzSum0/(healtz.length/2) ;
 //        str2 += "Hz1:" + healtzSum1/(healtz.length/2) ;
 //        str2 += "Hz2:" + (healtzSum0+healtzSum1)/healtz.length ;
@@ -240,6 +243,8 @@ public class VoiceManager {
     private int getVolumeLevel(int[] volume){
 
         int volumeSum = 0;
+
+        _mDebugIF.showDebugVolume(volume);
 
         for (int n = 0; n < volume.length; n++){
             if(volume[n] >= 0){

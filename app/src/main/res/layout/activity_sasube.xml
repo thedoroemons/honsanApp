@@ -22,6 +22,15 @@
         android:layout_alignParentBottom="true"
         />
 
+    <TextView
+        android:id="@+id/textView3"
+        android:text="@string/hello_world"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        />
+
 
 
 </RelativeLayout>
